@@ -1,0 +1,2293 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aprendo a Leer — Método 20 Días</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
+.logo-ltp{object-fit:contain;}
+:root{
+  --indigo:#4f46e5;--indigo-dark:#3730a3;--indigo-light:#ede9fe;
+  --green:#10b981;--green-light:#d1fae5;
+  --amber:#f59e0b;--amber-light:#fef3c7;
+  --red:#ef4444;--red-light:#fee2e2;
+  --gray-50:#f8fafc;--gray-100:#f1f5f9;--gray-200:#e2e8f0;
+  --shadow-sm:0 1px 3px rgba(0,0,0,.08);
+  --shadow-md:0 4px 16px rgba(0,0,0,.1);
+  --shadow-lg:0 8px 32px rgba(0,0,0,.14);
+  --radius:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Nunito','Segoe UI',sans-serif;background:linear-gradient(135deg,#f0f4ff 0%,#faf5ff 100%);color:#1a1a2e;min-height:100vh;}
+/* Login por RUT */
+.login-screen{position:fixed;inset:0;background:linear-gradient(135deg,#1e1b4b 0%,#3730a3 100%);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;}
+.login-card{background:white;border-radius:24px;padding:36px 32px;max-width:400px;width:100%;text-align:center;box-shadow:0 24px 64px rgba(0,0,0,.4);animation:modalIn .4s cubic-bezier(.34,1.56,.64,1);}
+.login-logo-img{width:80px;height:80px;object-fit:contain;margin-bottom:16px;}
+.login-card h2{font-size:22px;font-weight:900;color:#1e1b4b;margin-bottom:4px;}
+.login-card .sub{font-size:13px;color:#6b7280;margin-bottom:24px;}
+.login-label{font-size:13px;font-weight:800;color:#374151;text-align:left;display:block;margin-bottom:6px;}
+.login-input{width:100%;padding:14px 18px;border:3px solid #c7d2fe;border-radius:14px;font-size:22px;font-weight:700;font-family:inherit;outline:none;text-align:center;color:#1e1b4b;transition:border .2s;margin-bottom:6px;letter-spacing:2px;}
+.login-input:focus{border-color:#4f46e5;box-shadow:0 0 0 4px rgba(79,70,229,.12);}
+.login-input.error{border-color:#ef4444;animation:sacudir .4s;}
+.login-error{font-size:13px;color:#ef4444;font-weight:700;min-height:18px;margin-bottom:10px;}
+.login-btn{background:linear-gradient(135deg,#4f46e5,#7c3aed);color:white;border:none;padding:15px 32px;border-radius:14px;font-size:17px;font-weight:900;cursor:pointer;width:100%;transition:all .2s;font-family:inherit;margin-bottom:8px;}
+.login-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(79,70,229,.4);}
+.login-saving{display:none;align-items:center;justify-content:center;gap:8px;font-size:13px;color:#6b7280;padding:8px;}
+.login-saving.vis{display:flex;}
+@keyframes spin{to{transform:rotate(360deg)}}
+.spinner{width:16px;height:16px;border:2px solid #e5e7eb;border-top-color:#4f46e5;border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0;}
+/* Modal de bienvenida */
+.modal-overlay{position:fixed;inset:0;background:rgba(30,27,75,.7);z-index:9999;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);}
+.modal-box{background:white;border-radius:24px;padding:36px 32px;max-width:420px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.3);animation:modalIn .35s cubic-bezier(.34,1.56,.64,1);}
+@keyframes modalIn{from{transform:scale(.7);opacity:0;}to{transform:scale(1);opacity:1;}}
+.modal-emoji{font-size:64px;margin-bottom:12px;display:block;}
+.modal-box h2{font-size:24px;font-weight:900;color:#1e1b4b;margin-bottom:6px;}
+.modal-box p{font-size:15px;color:#6b7280;margin-bottom:20px;}
+.modal-input{width:100%;padding:14px 18px;border:3px solid #c7d2fe;border-radius:14px;font-size:20px;font-weight:700;font-family:inherit;outline:none;text-align:center;color:#1e1b4b;transition:border .2s;margin-bottom:16px;}
+.modal-input:focus{border-color:#4f46e5;box-shadow:0 0 0 4px rgba(79,70,229,.15);}
+.modal-btn{background:linear-gradient(135deg,#4f46e5,#7c3aed);color:white;border:none;padding:14px 32px;border-radius:14px;font-size:17px;font-weight:900;cursor:pointer;width:100%;transition:all .2s;font-family:inherit;}
+.modal-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(79,70,229,.4);}
+/* Nombre en header */
+.header-nombre{font-size:15px;font-weight:900;color:white;opacity:.95;margin-top:2px;letter-spacing:.2px;}
+.header-nombre span{background:rgba(255,255,255,.2);padding:2px 10px;border-radius:20px;}
+/* Burbuja de felicitación */
+.burbuja{position:fixed;top:80px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#10b981,#059669);color:white;padding:14px 24px;border-radius:20px;font-size:16px;font-weight:800;box-shadow:0 8px 24px rgba(16,185,129,.4);z-index:8000;animation:burbujaIn .4s cubic-bezier(.34,1.56,.64,1);pointer-events:none;}
+@keyframes burbujaIn{from{opacity:0;transform:translateX(-50%) translateY(-20px) scale(.8);}to{opacity:1;transform:translateX(-50%) translateY(0) scale(1);}}
+.header{background:linear-gradient(135deg,#4f46e5 0%,#7c3aed 100%);color:white;padding:18px 24px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;box-shadow:0 4px 20px rgba(79,70,229,.35);}
+.header h1{font-size:22px;font-weight:900;letter-spacing:-.3px;}
+.header p{font-size:13px;opacity:.85;}
+.nav-dias{background:white;padding:14px 16px;display:flex;gap:6px;overflow-x:auto;border-bottom:3px solid #ede9fe;flex-wrap:wrap;box-shadow:0 2px 8px rgba(99,102,241,.08);}
+.dia-btn{padding:9px 15px;border-radius:22px;border:2px solid #e2e8f0;background:white;cursor:pointer;font-size:13px;font-weight:800;transition:all .2s;color:#64748b;}
+.dia-btn.activo{background:linear-gradient(135deg,var(--indigo),#7c3aed);color:white;border-color:transparent;box-shadow:0 4px 12px rgba(79,70,229,.3);}
+.dia-btn.completado{background:linear-gradient(135deg,#10b981,#059669);color:white;border-color:transparent;box-shadow:0 3px 8px rgba(16,185,129,.25);}
+.dia-btn.completado::after{content:" ✓";}
+.dia-btn:hover:not(.activo){border-color:var(--indigo);color:var(--indigo);background:var(--indigo-light);}
+.main{max-width:920px;margin:0 auto;padding:20px 16px;}
+.semana-badge{font-size:13px;font-weight:800;padding:4px 14px;border-radius:12px;display:inline-block;margin-bottom:8px;}
+.titulo-dia{font-size:24px;font-weight:800;color:#1e1b4b;margin-bottom:4px;}
+.subtitulo-dia{font-size:14px;color:#6b7280;margin-bottom:20px;}
+.card{background:white;border-radius:var(--radius);padding:22px;margin-bottom:20px;box-shadow:var(--shadow-md);border:1px solid rgba(99,102,241,.12);transition:box-shadow .2s;}
+.card-title{font-size:16px;font-weight:800;color:#1e1b4b;margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.silaba-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:10px;}
+.sil{border-radius:16px;border:2.5px solid #c7d2fe;text-align:center;padding:12px 6px;cursor:pointer;transition:all .18s;background:linear-gradient(160deg,#f8f7ff,#ede9fe);user-select:none;box-shadow:var(--shadow-sm);}
+.sil:hover{border-color:var(--indigo);background:linear-gradient(160deg,#ede9fe,#ddd6fe);transform:scale(1.07) translateY(-2px);box-shadow:var(--shadow-md);}
+.sil.playing{border-color:var(--amber);background:linear-gradient(160deg,#fef3c7,#fde68a);transform:scale(1.1) translateY(-2px);box-shadow:0 6px 16px rgba(245,158,11,.3);}
+.sil .emoji{font-size:30px;display:block;margin-bottom:5px;}
+.sil .txt{font-size:24px;font-weight:900;color:#3730a3;letter-spacing:.5px;}
+.sil .pal{font-size:10px;color:#6b7280;margin-top:3px;font-weight:600;}
+.speed-ctrl{display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap;}
+.speed-btn{padding:7px 16px;border-radius:20px;border:2px solid #e2e8f0;background:white;cursor:pointer;font-size:13px;font-weight:700;color:#64748b;transition:all .2s;}
+.speed-btn.sel{background:#f59e0b;color:white;border-color:#f59e0b;}
+.speed-label{font-size:13px;color:#6b7280;font-weight:600;}
+.tab-nav{display:flex;gap:10px;margin-bottom:24px;flex-wrap:wrap;}
+.tab-btn{flex:1;min-width:120px;padding:16px 8px;background:white;border:2.5px solid #e5e7eb;border-radius:16px;cursor:pointer;font-size:15px;font-weight:800;color:#64748b;transition:all .22s;text-align:center;line-height:1.3;box-shadow:var(--shadow-sm);}
+.tab-btn:hover:not(.activo){border-color:var(--indigo);color:var(--indigo);background:var(--indigo-light);transform:translateY(-3px);box-shadow:var(--shadow-md);}
+.tab-btn.activo{background:linear-gradient(135deg,var(--indigo),#7c3aed);color:white;border-color:transparent;box-shadow:0 6px 18px rgba(79,70,229,.4);transform:translateY(-3px);}
+.seccion{display:none;}
+.seccion.activa{display:block;}
+.texto-lectura{font-size:20px;line-height:2.4;font-weight:600;color:#1e1b4b;letter-spacing:.3px;}
+.palabra-lectura{cursor:pointer;padding:2px 4px;border-radius:6px;transition:background .15s;display:inline-block;}
+.palabra-lectura:hover{background:#ede9fe;}
+.palabra-lectura.playing{background:#fef3c7;}
+.imagen-lectura{font-size:70px;text-align:center;margin-bottom:16px;}
+.dictado-wrap{margin-bottom:14px;}
+.dictado-linea{border-bottom:2px solid #c7d2fe;margin:8px 0;width:100%;height:32px;}
+.puntaje{display:flex;gap:12px;align-items:center;margin-bottom:16px;flex-wrap:wrap;}
+.puntaje-num{font-size:28px;font-weight:900;color:var(--indigo);text-shadow:0 2px 8px rgba(79,70,229,.2);}
+.puntaje-label{font-size:14px;color:#6b7280;font-weight:600;}
+.puntaje-wrap{background:linear-gradient(135deg,#ede9fe,#f0f4ff);border-radius:14px;padding:12px 18px;border:1.5px solid #c7d2fe;display:inline-flex;align-items:center;gap:10px;}
+.btn-verificar{background:linear-gradient(135deg,var(--indigo),#7c3aed);color:white;border:none;padding:13px 26px;border-radius:12px;font-size:15px;font-weight:800;cursor:pointer;margin-top:10px;transition:all .2s;box-shadow:0 4px 12px rgba(79,70,229,.3);}
+.btn-verificar:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(79,70,229,.4);}
+.btn-siguiente{background:linear-gradient(135deg,#10b981,#059669);color:white;border:none;padding:13px 26px;border-radius:12px;font-size:15px;font-weight:800;cursor:pointer;margin-top:10px;margin-left:8px;transition:all .2s;box-shadow:0 4px 12px rgba(16,185,129,.3);}
+.btn-siguiente:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(16,185,129,.4);}
+.progreso-bar-wrap{background:#e5e7eb;border-radius:20px;height:10px;overflow:hidden;margin:6px 0 14px;}
+.progreso-bar{height:100%;background:#4f46e5;border-radius:20px;transition:width .4s;}
+.feedback{margin-top:10px;padding:10px 16px;border-radius:10px;font-size:15px;font-weight:700;display:none;}
+.feedback.ok{background:#d1fae5;color:#065f46;display:block;}
+.feedback.error{background:#fee2e2;color:#991b1b;display:block;}
+.loteria-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;}
+.loteria-card{border-radius:10px;border:2px solid #e5e7eb;padding:8px 4px;text-align:center;cursor:pointer;transition:all .15s;background:#fafafa;}
+.loteria-card.marcada{background:#fef3c7;border-color:#f59e0b;}
+.loteria-card .le{font-size:17px;font-weight:800;color:#3730a3;}
+.loteria-card .im{font-size:22px;}
+.loteria-llamada{background:#4f46e5;color:white;border-radius:12px;padding:16px;text-align:center;margin-bottom:12px;}
+.sil-grande{font-size:54px;font-weight:900;letter-spacing:4px;}
+.btn-sortear{background:#f59e0b;color:white;border:none;padding:10px 22px;border-radius:12px;font-size:15px;font-weight:800;cursor:pointer;}
+.completado-overlay{text-align:center;padding:30px 20px;}
+.completado-overlay .trofeo{font-size:70px;}
+.completado-overlay h2{font-size:26px;font-weight:900;color:#1e1b4b;margin:10px 0 6px;}
+.completado-overlay p{color:#6b7280;font-size:15px;}
+.dict-item{margin-bottom:18px;border-radius:14px;border:2px solid #e0e7ff;background:#f8f7ff;padding:14px 16px;transition:border .2s;}
+.dict-item.escuchada{border-color:#6366f1;}
+.dict-item.correcta{border-color:#10b981;background:#ecfdf5;}
+.dict-item.incorrecta{border-color:#ef4444;background:#fef2f2;}
+.dict-num{font-size:12px;font-weight:800;color:#9ca3af;margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px;}
+.dict-btn-escuchar{background:#4f46e5;color:white;border:none;padding:9px 18px;border-radius:10px;font-size:14px;font-weight:800;cursor:pointer;margin-bottom:10px;transition:background .2s;}
+.dict-btn-escuchar:hover{background:#3730a3;}
+.dict-btn-escuchar:disabled{background:#a5b4fc;cursor:not-allowed;}
+.dict-input{width:100%;padding:12px 16px;border:2.5px solid #c7d2fe;border-radius:12px;font-size:20px;font-weight:700;outline:none;transition:border .2s;background:white;color:#1e1b4b;letter-spacing:1px;}
+.dict-input:focus{border-color:#4f46e5;}
+.dict-input.ok{border-color:#10b981;background:#ecfdf5;color:#065f46;}
+.dict-input.error{border-color:#ef4444;background:#fef2f2;color:#991b1b;}
+.dict-acciones{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;}
+.dict-btn-check{background:#10b981;color:white;border:none;padding:8px 18px;border-radius:10px;font-size:14px;font-weight:800;cursor:pointer;transition:background .2s;}
+.dict-btn-check:hover{background:#059669;}
+.dict-btn-repetir{background:white;color:#4f46e5;border:2px solid #c7d2fe;padding:8px 14px;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;}
+.dict-btn-repetir:hover{border-color:#4f46e5;}
+.dict-resultado{margin-top:8px;padding:8px 12px;border-radius:8px;font-size:14px;font-weight:700;display:none;}
+.dict-resultado.ok{background:#d1fae5;color:#065f46;display:block;}
+.dict-resultado.error{background:#fee2e2;color:#991b1b;display:block;}
+.dict-respuesta-correcta{font-size:13px;color:#6b7280;margin-top:4px;display:none;}
+.dict-progreso{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap;}
+.dict-prog-dot{width:28px;height:28px;border-radius:50%;border:2px solid #e0e7ff;background:white;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#9ca3af;transition:all .3s;}
+.dict-prog-dot.ok{background:#10b981;border-color:#10b981;color:white;}
+.dict-prog-dot.error{background:#ef4444;border-color:#ef4444;color:white;}
+.dict-prog-dot.activo{border-color:#4f46e5;color:#4f46e5;background:#ede9fe;}
+.dict-resumen{background:#f0fdf4;border:2px solid #10b981;border-radius:14px;padding:16px;margin-top:16px;text-align:center;display:none;}
+.dict-resumen h3{font-size:18px;font-weight:900;color:#065f46;margin-bottom:6px;}
+.dict-resumen p{font-size:14px;color:#6b7280;}
+.frase-item{margin-bottom:18px;border-radius:14px;border:2px solid #fde68a;background:#fffbeb;padding:14px 16px;transition:border .2s;}
+.frase-item.correcta{border-color:#10b981;background:#ecfdf5;}
+.frase-item.incorrecta{border-color:#ef4444;background:#fef2f2;}
+.frase-input{width:100%;padding:12px 16px;border:2.5px solid #fde68a;border-radius:12px;font-size:18px;font-weight:600;outline:none;transition:border .2s;background:white;color:#1e1b4b;}
+.frase-input:focus{border-color:#f59e0b;}
+.frase-input.ok{border-color:#10b981;background:#ecfdf5;color:#065f46;}
+.frase-input.error{border-color:#ef4444;background:#fef2f2;color:#991b1b;}
+.voz-panel{background:#f8f7ff;border:1px solid #ddd6fe;border-radius:10px;padding:8px 12px;margin-bottom:12px;}
+.voz-panel h3{font-size:11px;font-weight:700;color:#6b7280;margin-bottom:6px;display:flex;align-items:center;gap:4px;}
+.voz-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.voz-btn{border-radius:7px;border:1.5px solid #ddd6fe;background:white;cursor:pointer;font-size:11px;font-weight:700;color:#4f46e5;padding:5px 3px;text-align:center;transition:all .15s;line-height:1.3;}
+.voz-btn:hover{border-color:#4f46e5;background:#ede9fe;}
+.voz-btn.sel{background:#4f46e5;color:white;border-color:#4f46e5;}
+.voz-nombre-wrap{margin-top:5px;font-size:10px;color:#9ca3af;text-align:center;}
+.voz-nombre-wrap span{color:#4f46e5;font-weight:700;}
+
+.reporte-wrap{padding:4px 0;}
+.rep-header{background:linear-gradient(135deg,#1e1b4b,#3730a3);color:white;border-radius:16px;padding:20px 22px;margin-bottom:18px;display:flex;align-items:center;gap:16px;}
+.rep-header .logo-ltp{width:52px;height:52px;border-radius:10px;}
+.rep-header-txt h2{font-size:18px;font-weight:900;margin-bottom:2px;}
+.rep-header-txt p{font-size:12px;opacity:.8;}
+.rep-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px;}
+.rep-stat{background:white;border-radius:14px;padding:14px 12px;text-align:center;border:2px solid #e5e7eb;box-shadow:var(--shadow-sm);}
+.rep-stat .num{font-size:30px;font-weight:900;display:block;margin-bottom:4px;}
+.rep-stat .lbl{font-size:11px;color:#6b7280;font-weight:700;text-transform:uppercase;letter-spacing:.3px;}
+.rep-stat.verde .num{color:#10b981;}
+.rep-stat.azul .num{color:#4f46e5;}
+.rep-stat.ambar .num{color:#f59e0b;}
+.rep-semana{margin-bottom:14px;}
+.rep-semana h3{font-size:14px;font-weight:800;color:#1e1b4b;margin-bottom:8px;padding:6px 12px;border-radius:8px;display:inline-block;}
+.rep-dias-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+.rep-dia{border-radius:12px;border:2px solid #e5e7eb;padding:10px 6px;text-align:center;background:#fafafa;transition:all .2s;}
+.rep-dia.completado{background:linear-gradient(160deg,#d1fae5,#a7f3d0);border-color:#10b981;}
+.rep-dia.pendiente{background:#f8fafc;border-color:#e2e8f0;}
+.rep-dia.actual{background:linear-gradient(160deg,#ede9fe,#ddd6fe);border-color:#4f46e5;}
+.rep-dia .dia-num{font-size:13px;font-weight:800;color:#374151;margin-bottom:3px;}
+.rep-dia .dia-ico{font-size:20px;}
+.rep-dia.completado .dia-num{color:#065f46;}
+.rep-progreso-barra{background:#e5e7eb;border-radius:20px;height:14px;overflow:hidden;margin:10px 0 4px;}
+.rep-progreso-fill{height:100%;border-radius:20px;background:linear-gradient(90deg,#10b981,#059669);transition:width .6s;}
+.rep-fecha{font-size:11px;color:#9ca3af;text-align:right;margin-top:16px;}
+.rep-obs{background:#fffbeb;border:1.5px solid #fde68a;border-radius:12px;padding:14px;margin-top:14px;}
+.rep-obs h4{font-size:13px;font-weight:800;color:#92400e;margin-bottom:6px;}
+.rep-obs textarea{width:100%;border:1.5px solid #fde68a;border-radius:8px;padding:8px 10px;font-size:13px;font-family:inherit;resize:vertical;min-height:70px;outline:none;background:white;}
+.rep-print-btn{background:linear-gradient(135deg,#1e1b4b,#3730a3);color:white;border:none;padding:12px 24px;border-radius:12px;font-size:14px;font-weight:800;cursor:pointer;margin-top:14px;display:flex;align-items:center;gap:8px;transition:all .2s;}
+.rep-print-btn:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(30,27,75,.3);}
+@media print{
+  .nav-dias,.tab-nav,.rep-print-btn,.dict-acciones,.speed-ctrl,.voz-panel{display:none!important;}
+  .seccion{display:block!important;}
+  body{background:white;}
+  .header{box-shadow:none;}
+}
+
+.btn-logrado{padding:12px 20px;border-radius:12px;border:2.5px solid #e2e8f0;background:white;cursor:pointer;font-size:14px;font-weight:800;color:#64748b;transition:all .2s;}
+.btn-logrado:hover{border-color:#10b981;color:#10b981;background:#ecfdf5;}
+.btn-logrado.logrado{background:linear-gradient(135deg,#10b981,#059669);color:white;border-color:transparent;box-shadow:0 4px 12px rgba(16,185,129,.3);}
+.logrado-msg{margin-top:12px;padding:10px 16px;background:#d1fae5;color:#065f46;border-radius:10px;font-size:14px;font-weight:800;}
+.sec-logrado-wrap{margin-top:20px;padding:16px;background:linear-gradient(135deg,#f0fdf4,#dcfce7);border-radius:14px;border:2px dashed #86efac;text-align:center;}
+.sec-instruccion{font-size:13px;color:#6b7280;margin-bottom:10px;font-weight:600;}
+.btn-sec-logrado{background:linear-gradient(135deg,#10b981,#059669);color:white;border:none;padding:15px 32px;border-radius:14px;font-size:17px;font-weight:900;cursor:pointer;transition:all .22s;box-shadow:0 4px 14px rgba(16,185,129,.35);font-family:inherit;}
+.btn-sec-logrado:hover{transform:translateY(-3px) scale(1.03);box-shadow:0 8px 22px rgba(16,185,129,.45);}
+.btn-sec-logrado.hecho{background:linear-gradient(135deg,#6b7280,#4b5563);box-shadow:none;cursor:default;}
+.btn-sec-logrado.hecho:hover{transform:none;}
+@keyframes sacudir{0%,100%{transform:translateX(0);}20%,60%{transform:translateX(-6px);}40%,80%{transform:translateX(6px);}}
+.tab-check{font-size:11px;vertical-align:super;}
+.lot-sorteada{background:linear-gradient(135deg,#ede9fe,#ddd6fe);border-radius:16px;padding:20px;text-align:center;margin-bottom:4px;}
+.lot-etiqueta{font-size:12px;color:#6b7280;font-weight:700;margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px;}
+.lot-sil-grande{font-size:64px;font-weight:900;color:#3730a3;letter-spacing:4px;line-height:1;}
+.lot-escuchar-btn{margin-top:10px;background:#4f46e5;color:white;border:none;padding:8px 18px;border-radius:10px;font-size:13px;font-weight:800;cursor:pointer;display:inline-flex;align-items:center;gap:6px;}
+.lot-opcion-btn{padding:12px 20px;border-radius:12px;border:2.5px solid #c7d2fe;background:white;cursor:pointer;font-size:22px;font-weight:900;color:#3730a3;transition:all .18s;box-shadow:0 2px 6px rgba(99,102,241,.1);}
+.lot-opcion-btn:hover:not(:disabled){border-color:#4f46e5;background:#ede9fe;transform:scale(1.06);}
+.lot-opcion-btn:disabled{opacity:.6;cursor:not-allowed;}
+.lot-resultado{margin-top:12px;padding:12px 16px;border-radius:10px;font-size:15px;font-weight:800;}
+.lot-resultado.ok{background:#d1fae5;color:#065f46;}
+.lot-resultado.error{background:#fee2e2;color:#991b1b;}
+.lot-respuesta-txt{margin-top:10px;padding:12px 16px;background:#f8f7ff;border-radius:10px;font-size:18px;text-align:center;display:flex;align-items:center;justify-content:center;gap:4px;flex-wrap:wrap;}
+.lot-puntaje{margin-top:14px;font-size:13px;color:#6b7280;font-weight:700;text-align:right;}
+
+/* ── Panel docente completo ────────────────────────────── */
+.pdoc-screen{position:fixed;inset:0;background:#f0f4ff;z-index:9998;overflow-y:auto;padding:0 0 40px;}
+.pdoc-header{background:linear-gradient(135deg,#1e1b4b,#3730a3);color:white;padding:18px 24px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+.pdoc-header h1{font-size:20px;font-weight:900;flex:1;}
+.pdoc-header p{font-size:12px;opacity:.8;width:100%;}
+.pdoc-salir-btn{background:rgba(255,255,255,.15);border:1.5px solid rgba(255,255,255,.3);color:white;padding:8px 16px;border-radius:10px;cursor:pointer;font-size:13px;font-weight:700;font-family:inherit;}
+.pdoc-main{max-width:900px;margin:0 auto;padding:20px 16px;}
+.pdoc-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:22px;}
+.pdoc-stat{background:white;border-radius:14px;padding:14px;text-align:center;border:1.5px solid #e5e7eb;box-shadow:0 2px 6px rgba(0,0,0,.06);}
+.pdoc-stat .num{font-size:28px;font-weight:900;display:block;margin-bottom:3px;}
+.pdoc-stat .lbl{font-size:11px;color:#6b7280;font-weight:700;text-transform:uppercase;}
+.pdoc-stat.verde .num{color:#10b981;}
+.pdoc-stat.azul .num{color:#4f46e5;}
+.pdoc-stat.ambar .num{color:#f59e0b;}
+.alumna-card{background:white;border-radius:16px;padding:20px;margin-bottom:16px;border:2px solid #e5e7eb;box-shadow:0 2px 8px rgba(0,0,0,.06);}
+.alumna-card.loading{opacity:.6;}
+.alumna-card-header{display:flex;align-items:center;gap:14px;margin-bottom:14px;flex-wrap:wrap;}
+.alumna-avatar{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:900;color:white;flex-shrink:0;}
+.alumna-card-info h3{font-size:17px;font-weight:900;color:#1e1b4b;margin-bottom:2px;}
+.alumna-card-info p{font-size:12px;color:#6b7280;}
+.alumna-prog-barra{background:#e5e7eb;border-radius:20px;height:10px;overflow:hidden;margin:8px 0 4px;}
+.alumna-prog-fill{height:100%;border-radius:20px;background:linear-gradient(90deg,#10b981,#059669);transition:width .5s;}
+.alumna-dias-grid{display:grid;grid-template-columns:repeat(10,1fr);gap:5px;margin:12px 0;}
+.alumna-dia-dot{height:22px;border-radius:5px;border:1.5px solid #e5e7eb;background:#f8fafc;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#9ca3af;}
+.alumna-dia-dot.ok{background:#10b981;border-color:#10b981;color:white;}
+.alumna-dia-dot.act{background:#4f46e5;border-color:#4f46e5;color:white;}
+.alumna-acciones{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;}
+.pdoc-obs-area{width:100%;padding:10px 12px;border:2px solid #c7d2fe;border-radius:10px;font-size:13px;font-family:inherit;resize:vertical;min-height:60px;outline:none;margin-top:6px;}
+.pdoc-obs-area:focus{border-color:#4f46e5;}
+.pdoc-seccion{background:white;border-radius:16px;padding:20px;margin-bottom:16px;border:1.5px solid #e5e7eb;}
+.pdoc-seccion h3{font-size:15px;font-weight:800;color:#1e1b4b;margin-bottom:14px;}
+.pdoc-alumna-form{display:grid;grid-template-columns:1fr 1fr auto;gap:8px;align-items:end;margin-bottom:10px;}
+.pdoc-inp{padding:10px 12px;border:2px solid #c7d2fe;border-radius:10px;font-size:14px;font-family:inherit;outline:none;width:100%;}
+.pdoc-inp:focus{border-color:#4f46e5;}
+.pdoc-inp-label{font-size:12px;font-weight:700;color:#374151;margin-bottom:4px;display:block;}
+/* ── Panel docente (overlay antiguo) ────────────────────── */
+.docente-overlay{position:fixed;inset:0;background:rgba(15,15,35,.82);z-index:9990;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(6px);}
+.docente-box{background:white;border-radius:22px;padding:30px 28px;max-width:460px;width:92%;box-shadow:0 24px 64px rgba(0,0,0,.35);animation:modalIn .3s cubic-bezier(.34,1.56,.64,1);}
+.docente-box h2{font-size:20px;font-weight:900;color:#1e1b4b;margin-bottom:4px;display:flex;align-items:center;gap:8px;}
+.docente-box .sub{font-size:13px;color:#6b7280;margin-bottom:20px;}
+.docente-clave-wrap{display:flex;gap:8px;margin-bottom:6px;}
+.docente-clave-inp{flex:1;padding:12px 16px;border:2.5px solid #c7d2fe;border-radius:12px;font-size:16px;font-weight:700;font-family:inherit;outline:none;letter-spacing:3px;}
+.docente-clave-inp:focus{border-color:#4f46e5;}
+.docente-clave-inp.error{border-color:#ef4444;animation:sacudir .4s;}
+.docente-btn-entrar{background:linear-gradient(135deg,#1e1b4b,#4f46e5);color:white;border:none;padding:12px 22px;border-radius:12px;font-size:15px;font-weight:800;cursor:pointer;font-family:inherit;}
+.docente-btn-entrar:hover{opacity:.9;}
+.docente-error-msg{font-size:12px;color:#ef4444;font-weight:700;margin-bottom:12px;min-height:16px;}
+.docente-seccion{margin-bottom:18px;padding:16px;background:#f8f7ff;border-radius:14px;border:1.5px solid #ede9fe;}
+.docente-seccion h3{font-size:14px;font-weight:800;color:#1e1b4b;margin-bottom:10px;}
+.docente-fila{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #ede9fe;}
+.docente-fila:last-child{border-bottom:none;}
+.docente-fila .etiq{font-size:13px;color:#374151;font-weight:600;}
+.docente-fila .val{font-size:13px;color:#4f46e5;font-weight:800;}
+.docente-btn-rojo{background:#ef4444;color:white;border:none;padding:9px 16px;border-radius:10px;font-size:13px;font-weight:800;cursor:pointer;font-family:inherit;transition:opacity .2s;}
+.docente-btn-rojo:hover{opacity:.85;}
+.docente-btn-gris{background:#6b7280;color:white;border:none;padding:9px 16px;border-radius:10px;font-size:13px;font-weight:800;cursor:pointer;font-family:inherit;transition:opacity .2s;}
+.docente-btn-gris:hover{opacity:.85;}
+.docente-btn-verde{background:linear-gradient(135deg,#10b981,#059669);color:white;border:none;padding:9px 16px;border-radius:10px;font-size:13px;font-weight:800;cursor:pointer;font-family:inherit;}
+.docente-clave-cambio{display:flex;gap:8px;margin-top:8px;}
+.docente-clave-cambio input{flex:1;padding:9px 12px;border:2px solid #c7d2fe;border-radius:10px;font-size:14px;font-family:inherit;outline:none;}
+.docente-btn-cerrar{background:none;border:none;color:#9ca3af;font-size:22px;cursor:pointer;float:right;margin-top:-4px;}
+@media(max-width:600px){.rep-stats{grid-template-columns:repeat(2,1fr);}.rep-dias-grid{grid-template-columns:repeat(3,1fr);}.voz-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}.silaba-grid{grid-template-columns:repeat(3,1fr);}.tab-btn{min-width:80px;padding:12px 4px;font-size:13px;}.tab-nav{gap:5px;}}.silaba-grid{grid-template-columns:repeat(3,1fr);}.tab-btn{font-size:11px;padding:8px 3px;}}
+
+.reporte-wrap{padding:4px 0;}
+.rep-header{background:linear-gradient(135deg,#1e1b4b,#3730a3);color:white;border-radius:16px;padding:20px 22px;margin-bottom:18px;display:flex;align-items:center;gap:16px;}
+.rep-header .logo-ltp{width:52px;height:52px;border-radius:10px;}
+.rep-header-txt h2{font-size:18px;font-weight:900;margin-bottom:2px;}
+.rep-header-txt p{font-size:12px;opacity:.8;}
+.rep-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px;}
+.rep-stat{background:white;border-radius:14px;padding:14px 12px;text-align:center;border:2px solid #e5e7eb;box-shadow:var(--shadow-sm);}
+.rep-stat .num{font-size:30px;font-weight:900;display:block;margin-bottom:4px;}
+.rep-stat .lbl{font-size:11px;color:#6b7280;font-weight:700;text-transform:uppercase;letter-spacing:.3px;}
+.rep-stat.verde .num{color:#10b981;}
+.rep-stat.azul .num{color:#4f46e5;}
+.rep-stat.ambar .num{color:#f59e0b;}
+.rep-semana{margin-bottom:14px;}
+.rep-semana h3{font-size:14px;font-weight:800;color:#1e1b4b;margin-bottom:8px;padding:6px 12px;border-radius:8px;display:inline-block;}
+.rep-dias-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+.rep-dia{border-radius:12px;border:2px solid #e5e7eb;padding:10px 6px;text-align:center;background:#fafafa;transition:all .2s;}
+.rep-dia.completado{background:linear-gradient(160deg,#d1fae5,#a7f3d0);border-color:#10b981;}
+.rep-dia.pendiente{background:#f8fafc;border-color:#e2e8f0;}
+.rep-dia.actual{background:linear-gradient(160deg,#ede9fe,#ddd6fe);border-color:#4f46e5;}
+.rep-dia .dia-num{font-size:13px;font-weight:800;color:#374151;margin-bottom:3px;}
+.rep-dia .dia-ico{font-size:20px;}
+.rep-dia.completado .dia-num{color:#065f46;}
+.rep-progreso-barra{background:#e5e7eb;border-radius:20px;height:14px;overflow:hidden;margin:10px 0 4px;}
+.rep-progreso-fill{height:100%;border-radius:20px;background:linear-gradient(90deg,#10b981,#059669);transition:width .6s;}
+.rep-fecha{font-size:11px;color:#9ca3af;text-align:right;margin-top:16px;}
+.rep-obs{background:#fffbeb;border:1.5px solid #fde68a;border-radius:12px;padding:14px;margin-top:14px;}
+.rep-obs h4{font-size:13px;font-weight:800;color:#92400e;margin-bottom:6px;}
+.rep-obs textarea{width:100%;border:1.5px solid #fde68a;border-radius:8px;padding:8px 10px;font-size:13px;font-family:inherit;resize:vertical;min-height:70px;outline:none;background:white;}
+.rep-print-btn{background:linear-gradient(135deg,#1e1b4b,#3730a3);color:white;border:none;padding:12px 24px;border-radius:12px;font-size:14px;font-weight:800;cursor:pointer;margin-top:14px;display:flex;align-items:center;gap:8px;transition:all .2s;}
+.rep-print-btn:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(30,27,75,.3);}
+@media print{
+  .nav-dias,.tab-nav,.rep-print-btn,.dict-acciones,.speed-ctrl,.voz-panel{display:none!important;}
+  .seccion{display:block!important;}
+  body{background:white;}
+  .header{box-shadow:none;}
+}
+
+.btn-logrado{padding:12px 20px;border-radius:12px;border:2.5px solid #e2e8f0;background:white;cursor:pointer;font-size:14px;font-weight:800;color:#64748b;transition:all .2s;}
+.btn-logrado:hover{border-color:#10b981;color:#10b981;background:#ecfdf5;}
+.btn-logrado.logrado{background:linear-gradient(135deg,#10b981,#059669);color:white;border-color:transparent;box-shadow:0 4px 12px rgba(16,185,129,.3);}
+.logrado-msg{margin-top:12px;padding:10px 16px;background:#d1fae5;color:#065f46;border-radius:10px;font-size:14px;font-weight:800;}
+.sec-logrado-wrap{margin-top:20px;padding:16px;background:linear-gradient(135deg,#f0fdf4,#dcfce7);border-radius:14px;border:2px dashed #86efac;text-align:center;}
+.sec-instruccion{font-size:13px;color:#6b7280;margin-bottom:10px;font-weight:600;}
+.btn-sec-logrado{background:linear-gradient(135deg,#10b981,#059669);color:white;border:none;padding:15px 32px;border-radius:14px;font-size:17px;font-weight:900;cursor:pointer;transition:all .22s;box-shadow:0 4px 14px rgba(16,185,129,.35);font-family:inherit;}
+.btn-sec-logrado:hover{transform:translateY(-3px) scale(1.03);box-shadow:0 8px 22px rgba(16,185,129,.45);}
+.btn-sec-logrado.hecho{background:linear-gradient(135deg,#6b7280,#4b5563);box-shadow:none;cursor:default;}
+.btn-sec-logrado.hecho:hover{transform:none;}
+@keyframes sacudir{0%,100%{transform:translateX(0);}20%,60%{transform:translateX(-6px);}40%,80%{transform:translateX(6px);}}
+.tab-check{font-size:11px;vertical-align:super;}
+.lot-sorteada{background:linear-gradient(135deg,#ede9fe,#ddd6fe);border-radius:16px;padding:20px;text-align:center;margin-bottom:4px;}
+.lot-etiqueta{font-size:12px;color:#6b7280;font-weight:700;margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px;}
+.lot-sil-grande{font-size:64px;font-weight:900;color:#3730a3;letter-spacing:4px;line-height:1;}
+.lot-escuchar-btn{margin-top:10px;background:#4f46e5;color:white;border:none;padding:8px 18px;border-radius:10px;font-size:13px;font-weight:800;cursor:pointer;display:inline-flex;align-items:center;gap:6px;}
+.lot-opcion-btn{padding:12px 20px;border-radius:12px;border:2.5px solid #c7d2fe;background:white;cursor:pointer;font-size:22px;font-weight:900;color:#3730a3;transition:all .18s;box-shadow:0 2px 6px rgba(99,102,241,.1);}
+.lot-opcion-btn:hover:not(:disabled){border-color:#4f46e5;background:#ede9fe;transform:scale(1.06);}
+.lot-opcion-btn:disabled{opacity:.6;cursor:not-allowed;}
+.lot-resultado{margin-top:12px;padding:12px 16px;border-radius:10px;font-size:15px;font-weight:800;}
+.lot-resultado.ok{background:#d1fae5;color:#065f46;}
+.lot-resultado.error{background:#fee2e2;color:#991b1b;}
+.lot-respuesta-txt{margin-top:10px;padding:12px 16px;background:#f8f7ff;border-radius:10px;font-size:18px;text-align:center;display:flex;align-items:center;justify-content:center;gap:4px;flex-wrap:wrap;}
+.lot-puntaje{margin-top:14px;font-size:13px;color:#6b7280;font-weight:700;text-align:right;}
+
+/* ── Panel docente completo ────────────────────────────── */
+.pdoc-screen{position:fixed;inset:0;background:#f0f4ff;z-index:9998;overflow-y:auto;padding:0 0 40px;}
+.pdoc-header{background:linear-gradient(135deg,#1e1b4b,#3730a3);color:white;padding:18px 24px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+.pdoc-header h1{font-size:20px;font-weight:900;flex:1;}
+.pdoc-header p{font-size:12px;opacity:.8;width:100%;}
+.pdoc-salir-btn{background:rgba(255,255,255,.15);border:1.5px solid rgba(255,255,255,.3);color:white;padding:8px 16px;border-radius:10px;cursor:pointer;font-size:13px;font-weight:700;font-family:inherit;}
+.pdoc-main{max-width:900px;margin:0 auto;padding:20px 16px;}
+.pdoc-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:22px;}
+.pdoc-stat{background:white;border-radius:14px;padding:14px;text-align:center;border:1.5px solid #e5e7eb;box-shadow:0 2px 6px rgba(0,0,0,.06);}
+.pdoc-stat .num{font-size:28px;font-weight:900;display:block;margin-bottom:3px;}
+.pdoc-stat .lbl{font-size:11px;color:#6b7280;font-weight:700;text-transform:uppercase;}
+.pdoc-stat.verde .num{color:#10b981;}
+.pdoc-stat.azul .num{color:#4f46e5;}
+.pdoc-stat.ambar .num{color:#f59e0b;}
+.alumna-card{background:white;border-radius:16px;padding:20px;margin-bottom:16px;border:2px solid #e5e7eb;box-shadow:0 2px 8px rgba(0,0,0,.06);}
+.alumna-card.loading{opacity:.6;}
+.alumna-card-header{display:flex;align-items:center;gap:14px;margin-bottom:14px;flex-wrap:wrap;}
+.alumna-avatar{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:900;color:white;flex-shrink:0;}
+.alumna-card-info h3{font-size:17px;font-weight:900;color:#1e1b4b;margin-bottom:2px;}
+.alumna-card-info p{font-size:12px;color:#6b7280;}
+.alumna-prog-barra{background:#e5e7eb;border-radius:20px;height:10px;overflow:hidden;margin:8px 0 4px;}
+.alumna-prog-fill{height:100%;border-radius:20px;background:linear-gradient(90deg,#10b981,#059669);transition:width .5s;}
+.alumna-dias-grid{display:grid;grid-template-columns:repeat(10,1fr);gap:5px;margin:12px 0;}
+.alumna-dia-dot{height:22px;border-radius:5px;border:1.5px solid #e5e7eb;background:#f8fafc;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#9ca3af;}
+.alumna-dia-dot.ok{background:#10b981;border-color:#10b981;color:white;}
+.alumna-dia-dot.act{background:#4f46e5;border-color:#4f46e5;color:white;}
+.alumna-acciones{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;}
+.pdoc-obs-area{width:100%;padding:10px 12px;border:2px solid #c7d2fe;border-radius:10px;font-size:13px;font-family:inherit;resize:vertical;min-height:60px;outline:none;margin-top:6px;}
+.pdoc-obs-area:focus{border-color:#4f46e5;}
+.pdoc-seccion{background:white;border-radius:16px;padding:20px;margin-bottom:16px;border:1.5px solid #e5e7eb;}
+.pdoc-seccion h3{font-size:15px;font-weight:800;color:#1e1b4b;margin-bottom:14px;}
+.pdoc-alumna-form{display:grid;grid-template-columns:1fr 1fr auto;gap:8px;align-items:end;margin-bottom:10px;}
+.pdoc-inp{padding:10px 12px;border:2px solid #c7d2fe;border-radius:10px;font-size:14px;font-family:inherit;outline:none;width:100%;}
+.pdoc-inp:focus{border-color:#4f46e5;}
+.pdoc-inp-label{font-size:12px;font-weight:700;color:#374151;margin-bottom:4px;display:block;}
+/* ── Panel docente (overlay antiguo) ────────────────────── */
+.docente-overlay{position:fixed;inset:0;background:rgba(15,15,35,.82);z-index:9990;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(6px);}
+.docente-box{background:white;border-radius:22px;padding:30px 28px;max-width:460px;width:92%;box-shadow:0 24px 64px rgba(0,0,0,.35);animation:modalIn .3s cubic-bezier(.34,1.56,.64,1);}
+.docente-box h2{font-size:20px;font-weight:900;color:#1e1b4b;margin-bottom:4px;display:flex;align-items:center;gap:8px;}
+.docente-box .sub{font-size:13px;color:#6b7280;margin-bottom:20px;}
+.docente-clave-wrap{display:flex;gap:8px;margin-bottom:6px;}
+.docente-clave-inp{flex:1;padding:12px 16px;border:2.5px solid #c7d2fe;border-radius:12px;font-size:16px;font-weight:700;font-family:inherit;outline:none;letter-spacing:3px;}
+.docente-clave-inp:focus{border-color:#4f46e5;}
+.docente-clave-inp.error{border-color:#ef4444;animation:sacudir .4s;}
+.docente-btn-entrar{background:linear-gradient(135deg,#1e1b4b,#4f46e5);color:white;border:none;padding:12px 22px;border-radius:12px;font-size:15px;font-weight:800;cursor:pointer;font-family:inherit;}
+.docente-btn-entrar:hover{opacity:.9;}
+.docente-error-msg{font-size:12px;color:#ef4444;font-weight:700;margin-bottom:12px;min-height:16px;}
+.docente-seccion{margin-bottom:18px;padding:16px;background:#f8f7ff;border-radius:14px;border:1.5px solid #ede9fe;}
+.docente-seccion h3{font-size:14px;font-weight:800;color:#1e1b4b;margin-bottom:10px;}
+.docente-fila{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #ede9fe;}
+.docente-fila:last-child{border-bottom:none;}
+.docente-fila .etiq{font-size:13px;color:#374151;font-weight:600;}
+.docente-fila .val{font-size:13px;color:#4f46e5;font-weight:800;}
+.docente-btn-rojo{background:#ef4444;color:white;border:none;padding:9px 16px;border-radius:10px;font-size:13px;font-weight:800;cursor:pointer;font-family:inherit;transition:opacity .2s;}
+.docente-btn-rojo:hover{opacity:.85;}
+.docente-btn-gris{background:#6b7280;color:white;border:none;padding:9px 16px;border-radius:10px;font-size:13px;font-weight:800;cursor:pointer;font-family:inherit;transition:opacity .2s;}
+.docente-btn-gris:hover{opacity:.85;}
+.docente-btn-verde{background:linear-gradient(135deg,#10b981,#059669);color:white;border:none;padding:9px 16px;border-radius:10px;font-size:13px;font-weight:800;cursor:pointer;font-family:inherit;}
+.docente-clave-cambio{display:flex;gap:8px;margin-top:8px;}
+.docente-clave-cambio input{flex:1;padding:9px 12px;border:2px solid #c7d2fe;border-radius:10px;font-size:14px;font-family:inherit;outline:none;}
+.docente-btn-cerrar{background:none;border:none;color:#9ca3af;font-size:22px;cursor:pointer;float:right;margin-top:-4px;}
+@media(max-width:600px){.rep-stats{grid-template-columns:repeat(2,1fr);}.rep-dias-grid{grid-template-columns:repeat(3,1fr);}.silaba-grid{grid-template-columns:repeat(3,1fr);}.tab-btn{font-size:11px;padding:8px 3px;}}
+</style>
+</head>
+<body>
+<div class="header">
+  <img class="logo-ltp" style="width:64px;height:64px;object-fit:contain;border-radius:8px;flex-shrink:0;">
+  <div style="flex:1;">
+    <h1>Aprendo a Leer y Escribir</h1>
+    <p>Método de los 20 Días &nbsp;|&nbsp; Liceo Técnico Profesional Río Bueno</p>
+    <p style="font-size:12px;opacity:.7;margin-top:2px">Docente: Álvaro Barra Sáez</p>
+    <p class="header-nombre" id="header-nombre" style="display:none">✨ <span id="header-nombre-txt"></span></p>
+    <div id="banner-invitado" style="display:none;background:rgba(245,158,11,.25);border:1px solid rgba(245,158,11,.5);border-radius:8px;padding:4px 10px;font-size:11px;font-weight:800;color:#fef3c7;margin-top:4px;">👁 MODO INVITADO — el progreso no se guarda</div>
+  </div>
+  <div style="display:flex;flex-direction:column;gap:6px;flex-shrink:0;">
+    <button onclick="cerrarSesion()" style="background:rgba(255,255,255,.15);border:1.5px solid rgba(255,255,255,.3);color:white;padding:7px 14px;border-radius:10px;cursor:pointer;font-size:12px;font-weight:700;" title="Cambiar de alumna">🔄 Salir</button>
+    <button onclick="abrirPanelDocente()" style="background:rgba(255,255,255,.1);border:1.5px solid rgba(255,255,255,.25);color:white;padding:7px 14px;border-radius:10px;cursor:pointer;font-size:12px;font-weight:700;" title="Panel docente">🔐 Docente</button>
+  </div>
+</div>
+<div class="nav-dias" id="navDias"></div>
+<div class="main" id="contenidoDia"></div>
+
+<!-- Panel docente -->
+<div class="docente-overlay" id="panel-docente" style="display:none">
+  <div class="docente-box">
+    <button class="docente-btn-cerrar" onclick="cerrarPanelDocente()">✕</button>
+    <h2>🔐 Panel Docente</h2>
+    <p class="sub">Liceo Técnico Profesional de Río Bueno</p>
+    <div id="docente-login">
+      <div class="docente-clave-wrap">
+        <input class="docente-clave-inp" id="docente-clave-inp" type="password"
+          placeholder="Clave docente"
+          onkeydown="if(event.key==='Enter')verificarClaveDocente()"
+          autocomplete="off" maxlength="20">
+        <button class="docente-btn-entrar" onclick="verificarClaveDocente()">Entrar</button>
+      </div>
+      <div class="docente-error-msg" id="docente-error"></div>
+    </div>
+    <div id="docente-panel" style="display:none">
+      <div class="docente-seccion">
+        <h3>👩‍🎓 Alumna actual</h3>
+        <div class="docente-fila">
+          <span class="etiq">Nombre</span>
+          <span class="val" id="dp-nombre">—</span>
+        </div>
+        <div class="docente-fila">
+          <span class="etiq">Días completados</span>
+          <span class="val" id="dp-dias">—</span>
+        </div>
+        <div class="docente-fila">
+          <span class="etiq">Puntos acumulados</span>
+          <span class="val" id="dp-puntos">—</span>
+        </div>
+        <div class="docente-fila">
+          <span class="etiq">Día actual</span>
+          <span class="val" id="dp-dia-actual">—</span>
+        </div>
+      </div>
+      <div class="docente-seccion">
+        <h3>🗑 Borrar datos</h3>
+        <div class="docente-fila">
+          <span class="etiq">Borrar progreso del día actual</span>
+          <button class="docente-btn-gris" onclick="borrarDiaActual()">Borrar día</button>
+        </div>
+        <div class="docente-fila">
+          <span class="etiq">Reiniciar TODO (alumna nueva)</span>
+          <button class="docente-btn-rojo" onclick="confirmarBorrarTodo()">⚠ Borrar todo</button>
+        </div>
+      </div>
+      <div class="docente-seccion">
+        <h3>✏️ Cambiar nombre de alumna</h3>
+        <div class="docente-clave-cambio">
+          <input type="text" id="dp-nuevo-nombre" placeholder="Nuevo nombre..." maxlength="30" autocomplete="off">
+          <button class="docente-btn-verde" onclick="cambiarNombreDesdePanel()">Guardar</button>
+        </div>
+      </div>
+      <div class="docente-seccion">
+        <h3>🔑 Cambiar clave docente</h3>
+        <div class="docente-clave-cambio">
+          <input type="password" id="dp-nueva-clave" placeholder="Nueva clave..." maxlength="20" autocomplete="off">
+          <button class="docente-btn-verde" onclick="cambiarClaveDocente()">Guardar</button>
+        </div>
+        <p style="font-size:11px;color:#9ca3af;margin-top:6px;">Clave por defecto: LTP2025</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Login por RUT -->
+<div class="login-screen" id="login-screen">
+  <div class="login-card">
+    <img class="login-logo-img logo-ltp" src="" alt="LTP Río Bueno" style="width:80px;height:80px;">
+    <h2>Aprendo a Leer</h2>
+    <p class="sub">Liceo Técnico Profesional de Río Bueno<br>Docente: Álvaro Barra Sáez</p>
+    <label class="login-label">Ingresa tu RUT (sin puntos, con guión)</label>
+    <input class="login-input" id="login-rut-inp" type="text"
+      placeholder="12345678-9" maxlength="12" autocomplete="off"
+      oninput="formatearRut(this)"
+      onkeydown="if(event.key==='Enter')loginConRut()">
+    <div class="login-error" id="login-error"></div>
+    <button class="login-btn" onclick="loginConRut()">🚀 Entrar</button>
+    <div class="login-saving" id="login-saving">
+      <div class="spinner"></div> Cargando tu progreso...
+    </div>
+    <div style="margin-top:14px;padding-top:14px;border-top:1px solid #e5e7eb;display:flex;justify-content:center;gap:20px;flex-wrap:wrap;">
+      <button onclick="abrirLoginDocente()" style="background:none;border:none;color:#6b7280;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;text-decoration:underline;">
+        🔐 Acceso docente
+      </button>
+      <button onclick="abrirLoginInvitado()" style="background:none;border:none;color:#059669;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;text-decoration:underline;">
+        👁 Modo invitado
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal clave docente desde login -->
+<div class="modal-overlay" id="modal-clave-docente" style="display:none">
+  <div class="modal-box" style="max-width:360px;">
+    <button class="docente-btn-cerrar" onclick="document.getElementById('modal-clave-docente').style.display='none'">✕</button>
+    <span class="modal-emoji">🔐</span>
+    <h2 style="font-size:20px;font-weight:900;color:#1e1b4b;margin-bottom:4px;">Acceso Docente</h2>
+    <p style="font-size:13px;color:#6b7280;margin-bottom:18px;">Álvaro Barra Sáez</p>
+    <div class="docente-clave-wrap">
+      <input class="docente-clave-inp" id="clave-docente-login-inp" type="password"
+        placeholder="Clave docente" maxlength="20" autocomplete="off"
+        onkeydown="if(event.key==='Enter')verificarClaveDocenteLogin()">
+      <button class="docente-btn-entrar" onclick="verificarClaveDocenteLogin()">Entrar</button>
+    </div>
+    <div class="docente-error-msg" id="clave-docente-login-error"></div>
+  </div>
+</div>
+
+<!-- Modal clave invitado -->
+<div class="modal-overlay" id="modal-invitado" style="display:none">
+  <div class="modal-box" style="max-width:360px;">
+    <button class="docente-btn-cerrar" onclick="document.getElementById('modal-invitado').style.display='none'">✕</button>
+    <span class="modal-emoji">👁</span>
+    <h2 style="font-size:20px;font-weight:900;color:#1e1b4b;margin-bottom:4px;">Modo Invitado</h2>
+    <p style="font-size:13px;color:#6b7280;margin-bottom:6px;">Puedes explorar los 20 días completos.</p>
+    <p style="font-size:12px;color:#f59e0b;font-weight:700;margin-bottom:18px;">⚠ El progreso no se guarda al salir.</p>
+    <div class="docente-clave-wrap">
+      <input class="docente-clave-inp" id="inv-clave-inp" type="password"
+        placeholder="Clave de invitado" maxlength="20" autocomplete="off"
+        onkeydown="if(event.key==='Enter')verificarClaveInvitado()">
+      <button class="docente-btn-entrar" onclick="verificarClaveInvitado()">Entrar</button>
+    </div>
+    <div class="docente-error-msg" id="inv-error"></div>
+  </div>
+</div>
+
+<!-- Modal de nombre -->
+<div class="modal-overlay" id="modal-nombre" style="display:none">
+  <div class="modal-box">
+    <span class="modal-emoji">👋</span>
+    <h2>¡Hola! ¿Cómo te llamas?</h2>
+    <p>Escribe tu nombre para comenzar a aprender</p>
+    <input class="modal-input" id="modal-input-nombre" type="text"
+      placeholder="Mi nombre es..."
+      maxlength="30"
+      onkeydown="if(event.key==='Enter')guardarNombre()"
+      autocomplete="off">
+    <button class="modal-btn" onclick="guardarNombre()">¡Comenzar! 🚀</button>
+  </div>
+</div>
+
+<script>
+const DIAS=[
+  {semana:1,vocal:'A',titulo:'La vocal A',subtitulo:'Conocemos la A y sus sílabas',col:'#4f46e5',
+   silabas:[{s:'ba',e:'🪣',p:'balde'},{s:'ca',e:'🏠',p:'casa'},{s:'cha',e:'🧥',p:'chaleco'},{s:'da',e:'🎲',p:'dado'},{s:'fa',e:'🏮',p:'farol'},{s:'ga',e:'🐱',p:'gato'},{s:'ha',e:'🪓',p:'hacha'},{s:'ja',e:'🫙',p:'jarro'},{s:'la',e:'🦞',p:'langosta'},{s:'ma',e:'🍞',p:'marraqueta'},{s:'na',e:'🍊',p:'naranja'},{s:'pa',e:'🥔',p:'papa'},{s:'ra',e:'🌿',p:'ramo'},{s:'sa',e:'🧂',p:'sal'},{s:'ta',e:'🥁',p:'tambor'},{s:'va',e:'🐄',p:'vaca'},{s:'ya',e:'⛵',p:'yate'},{s:'za',e:'👟',p:'zapato'}],
+   palabrasDictado:['masa','casa','papa','vaca','sala','nana','sana','bata','pala','rama'],
+   frases:['La masa va a la casa.','La vaca pasta en la sala.','Mamá amasa la papa.'],
+   textoLectura:{txt:'La vaca Nata pasta la paja.\nMamá amasa la masa en casa.\nPapá llama a la nana Tala.',img:'🐄'},
+   ejercicios:[{palabra:'masa',silabas:['ma','sa'],opciones:['ma','sa','pa','la']},{palabra:'casa',silabas:['ca','sa'],opciones:['ca','sa','na','ta']},{palabra:'vaca',silabas:['va','ca'],opciones:['va','ca','ma','pa']}]},
+
+  {semana:1,vocal:'A',titulo:'Practicamos la A',subtitulo:'Más palabras con la A',col:'#4f46e5',
+   silabas:[{s:'ba',e:'🪣',p:'balde'},{s:'ca',e:'🏠',p:'casa'},{s:'ma',e:'🍞',p:'marraqueta'},{s:'pa',e:'🥔',p:'papa'},{s:'ra',e:'🌿',p:'ramo'},{s:'sa',e:'🧂',p:'sal'},{s:'ta',e:'🥁',p:'tambor'},{s:'va',e:'🐄',p:'vaca'},{s:'la',e:'🦞',p:'langosta'},{s:'na',e:'🍊',p:'naranja'},{s:'ga',e:'🐱',p:'gato'},{s:'da',e:'🎲',p:'dado'}],
+   palabrasDictado:['pata','rata','gata','lata','tapa','capa','saca','llama','cama','bala'],
+   frases:['La gata tapa la cama.','La rata saca la tapa.','Papá llama a la nana.'],
+   textoLectura:{txt:'La gata Nata saca la tapa.\nLa rata ata la pata a la rama.\nMamá llama a la gata brava.',img:'🐱'},
+   ejercicios:[{palabra:'gata',silabas:['ga','ta'],opciones:['ga','ta','na','sa']},{palabra:'pata',silabas:['pa','ta'],opciones:['pa','ta','ca','ma']},{palabra:'llama',silabas:['lla','ma'],opciones:['lla','ma','ta','na']}]},
+
+  {semana:1,vocal:'A',titulo:'Escribimos con A',subtitulo:'Dictado y escritura de palabras con A',col:'#4f46e5',
+   silabas:[{s:'ca',e:'🏠',p:'casa'},{s:'ma',e:'🍞',p:'marraqueta'},{s:'pa',e:'🥔',p:'papa'},{s:'sa',e:'🧂',p:'sal'},{s:'ta',e:'🥁',p:'tambor'},{s:'va',e:'🐄',p:'vaca'},{s:'la',e:'🦞',p:'langosta'},{s:'na',e:'🍊',p:'naranja'},{s:'ba',e:'🪣',p:'balde'}],
+   palabrasDictado:['navaja','parada','lavanda','patata','mañana','callada','sabana','tarata','ballata','carama'],
+   frases:['La nana barre la sala.','La banana está en la cama.','Mamá canta la mañana.'],
+   textoLectura:{txt:'La nana Tala barra la sala.\nMamá canta y amasa pan salada.\nPapá llama a la nana para la cama.',img:'🕊'},
+   ejercicios:[{palabra:'nana',silabas:['na','na'],opciones:['na','na','ma','ta']},{palabra:'sala',silabas:['sa','la'],opciones:['sa','la','ma','ta']},{palabra:'cama',silabas:['ca','ma'],opciones:['ca','ma','na','pa']}]},
+
+  {semana:1,vocal:'A',titulo:'Repaso de la A',subtitulo:'Repasamos todo lo aprendido con la A',col:'#4f46e5',
+   silabas:[{s:'ba',e:'🪣',p:'balde'},{s:'ca',e:'🏠',p:'casa'},{s:'ma',e:'🍞',p:'marraqueta'},{s:'pa',e:'🥔',p:'papa'},{s:'sa',e:'🧂',p:'sal'},{s:'ta',e:'🥁',p:'tambor'},{s:'va',e:'🐄',p:'vaca'},{s:'la',e:'🦞',p:'langosta'},{s:'na',e:'🍊',p:'naranja'}],
+   palabrasDictado:['caravana','maracas','campana','trampa','maraca','catama','garrama','larama','taranta','casama'],
+   frases:['La campana llama a misa.','Papá toca las maracas.','La caravana pasa la pampa.'],
+   textoLectura:{txt:'La nana amasa pan y tala ramas.\nLa campana llama a la barra.\nPapá talla la caravana para la nana.',img:'👵'},
+   ejercicios:[{palabra:'nana',silabas:['na','na'],opciones:['na','na','ma','ta']},{palabra:'campana',silabas:['cam','pa','na'],opciones:['cam','pa','na','ta','la']},{palabra:'maraca',silabas:['ma','ra','ca'],opciones:['ma','ra','ca','pa','na']}]},
+
+  {semana:2,vocal:'E',titulo:'La vocal E',subtitulo:'Conocemos la E y sus sílabas',col:'#059669',
+   silabas:[{s:'be',e:'🍺',p:'bebida'},{s:'ce',e:'🧺',p:'cesta'},{s:'che',e:'🎻',p:'chelo'},{s:'de',e:'🐬',p:'delfín'},{s:'fe',e:'🎡',p:'feria'},{s:'ge',e:'🍮',p:'gelatina'},{s:'he',e:'🌿',p:'helecho'},{s:'je',e:'🫚',p:'jengibre'},{s:'le',e:'🪵',p:'leña'},{s:'me',e:'🍑',p:'membrillo'},{s:'ne',e:'🌫',p:'neblina'},{s:'pe',e:'🐟',p:'pez'},{s:'que',e:'🧀',p:'quesillo'},{s:'re',e:'⌚',p:'reloj'},{s:'se',e:'🌾',p:'semilla'},{s:'te',e:'🍵',p:'tecito'},{s:'ve',e:'🕯',p:'vela'},{s:'ye',e:'🐴',p:'yegua'}],
+   palabrasDictado:['pez','tela','vela','mesa','pera','fea','meta','seta','bebe','neta'],
+   frases:['La mesa es de madera.','Esa pera es de Elena.','La vela se ve bella.'],
+   textoLectura:{txt:'Elena mesa la vela en la sala.\nLa tela es de seda bella.\nPapá pela la pera para Elena.',img:'🕯'},
+   ejercicios:[{palabra:'vela',silabas:['ve','la'],opciones:['ve','la','pe','me']},{palabra:'mesa',silabas:['me','sa'],opciones:['me','sa','te','pe']},{palabra:'pera',silabas:['pe','ra'],opciones:['pe','ra','me','te']}]},
+
+  {semana:2,vocal:'E',titulo:'Practicamos la E',subtitulo:'Más sílabas y palabras con E',col:'#059669',
+   silabas:[{s:'be',e:'🍺',p:'bebida'},{s:'ce',e:'🧺',p:'cesta'},{s:'de',e:'🐬',p:'delfín'},{s:'le',e:'🪵',p:'leña'},{s:'me',e:'🍑',p:'membrillo'},{s:'pe',e:'🐟',p:'pez'},{s:'que',e:'🧀',p:'quesillo'},{s:'re',e:'⌚',p:'reloj'},{s:'se',e:'🌾',p:'semilla'},{s:'te',e:'🍵',p:'tecito'},{s:'ve',e:'🕯',p:'vela'},{s:'ye',e:'🐴',p:'yegua'}],
+   palabrasDictado:['pecera','tetera','carreta','paleta','serena','melena','vereda','nevera','cereza','camela'],
+   frases:['La pecera de Elena es bella.','La carreta lleva leña.','Elena pela la cereza.'],
+   textoLectura:{txt:'Elena pela la cereza en la vereda.\nLa carreta lleva leña para la estera.\nMamá reta a Elena de la pecera bella.',img:'⛵'},
+   ejercicios:[{palabra:'cereza',silabas:['ce','re','za'],opciones:['ce','re','za','me','te']},{palabra:'vereda',silabas:['ve','re','da'],opciones:['ve','re','da','ce','pe']},{palabra:'pecera',silabas:['pe','ce','ra'],opciones:['pe','ce','ra','me','te']}]},
+
+  {semana:2,vocal:'E',titulo:'Escribimos con E',subtitulo:'Dictado con A y E',col:'#059669',
+   silabas:[{s:'be',e:'🍺',p:'bebida'},{s:'de',e:'🐬',p:'delfín'},{s:'le',e:'🪵',p:'leña'},{s:'me',e:'🍑',p:'membrillo'},{s:'pe',e:'🐟',p:'pez'},{s:'re',e:'⌚',p:'reloj'},{s:'se',e:'🌾',p:'semilla'},{s:'te',e:'🍵',p:'tecito'},{s:'ve',e:'🕯',p:'vela'}],
+   palabrasDictado:['cafetera','carretera','pesebre','pelea','paleta','meseta','serena','feretera','veleta','perrera'],
+   frases:['La cafetera de mamá es de peltre.','Elena pelea con calma.','La carretera pasa la serena.'],
+   textoLectura:{txt:'La cafetera de mamá cabe en la meseta.\nElena pela la pera cerca de la carretera.\nPapá trae leña para la tetera bella.',img:'☕'},
+   ejercicios:[{palabra:'cafetera',silabas:['ca','fe','te','ra'],opciones:['ca','fe','te','ra','me','se']},{palabra:'meseta',silabas:['me','se','ta'],opciones:['me','se','ta','pe','te']},{palabra:'leña',silabas:['le','ña'],opciones:['le','ña','me','pe']}]},
+
+  {semana:2,vocal:'E',titulo:'Repaso de la E',subtitulo:'Repasamos todo con la E',col:'#059669',
+   silabas:[{s:'be',e:'🍺',p:'bebida'},{s:'de',e:'🐬',p:'delfín'},{s:'le',e:'🪵',p:'leña'},{s:'me',e:'🍑',p:'membrillo'},{s:'pe',e:'🐟',p:'pez'},{s:'re',e:'⌚',p:'reloj'},{s:'se',e:'🌾',p:'semilla'},{s:'te',e:'🍵',p:'tecito'},{s:'ve',e:'🕯',p:'vela'}],
+   palabrasDictado:['leñera','semana','veleta','semejante','pesebre','perrera','terraza','cereza','melena','serena'],
+   frases:['La leñera de papá está llena.','La terraza es de madera serena.','Elena recela de la pelea.'],
+   textoLectura:{txt:'La leñera de papá está llena.\nElena pela la pera en la terraza.\nLa serena Elena camela en la vereda.',img:'🌿'},
+   ejercicios:[{palabra:'leñera',silabas:['le','ñe','ra'],opciones:['le','ñe','ra','me','te']},{palabra:'terraza',silabas:['te','rra','za'],opciones:['te','rra','za','me','pe']},{palabra:'serena',silabas:['se','re','na'],opciones:['se','re','na','me','te']}]},
+
+  {semana:3,vocal:'I',titulo:'La vocal I',subtitulo:'Conocemos la I y sus sílabas',col:'#dc2626',
+   silabas:[{s:'bi',e:'🚲',p:'bici'},{s:'chi',e:'🍌',p:'chirimoya'},{s:'ci',e:'🦢',p:'cisne'},{s:'di',e:'💰',p:'dinero'},{s:'fi',e:'🍜',p:'fideos'},{s:'gi',e:'🌻',p:'girasol'},{s:'gui',e:'🎸',p:'guitarra'},{s:'hi',e:'🧵',p:'hilo'},{s:'ji',e:'🏇',p:'jinete'},{s:'ki',e:'🥝',p:'kiwi'},{s:'li',e:'📚',p:'libro'},{s:'mi',e:'🍯',p:'miel'},{s:'ni',e:'❄',p:'nieve'},{s:'pi',e:'🍍',p:'piña'},{s:'ri',e:'😂',p:'risa'},{s:'si',e:'🧜',p:'sirena'},{s:'ti',e:'✂',p:'tijera'},{s:'vi',e:'🍇',p:'viña'}],
+   palabrasDictado:['bici','miel','fina','mini','silla','risa','lima','pila','tina','vida'],
+   frases:['Mi bici es fina.','La miel es rica.','Camila tiene silla linda.'],
+   textoLectura:{txt:'Camila tiene su bici fina.\nElla pedalea y ríe feliz.\nMía la mira desde la silla.',img:'🚲'},
+   ejercicios:[{palabra:'bici',silabas:['bi','ci'],opciones:['bi','ci','mi','li']},{palabra:'silla',silabas:['si','lla'],opciones:['si','lla','mi','ti']},{palabra:'Camila',silabas:['ca','mi','la'],opciones:['ca','mi','la','si','pi']}]},
+
+  {semana:3,vocal:'I',titulo:'Practicamos la I',subtitulo:'Más palabras con I',col:'#dc2626',
+   silabas:[{s:'bi',e:'🚲',p:'bici'},{s:'chi',e:'🍌',p:'chirimoya'},{s:'di',e:'💰',p:'dinero'},{s:'fi',e:'🍜',p:'fideos'},{s:'li',e:'📚',p:'libro'},{s:'mi',e:'🍯',p:'miel'},{s:'ni',e:'❄',p:'nieve'},{s:'pi',e:'🍍',p:'piña'},{s:'si',e:'🧜',p:'sirena'},{s:'ti',e:'✂',p:'tijera'},{s:'vi',e:'🍇',p:'viña'},{s:'ki',e:'🥝',p:'kiwi'}],
+   palabrasDictado:['sirena','tijera','camisa','semilla','viñita','piñita','malicia','camiseta','merienda','tablita'],
+   frases:['La sirena canta en el río.','Camila lleva camisa linda.','Mi merienda tiene miel.'],
+   textoLectura:{txt:'Camila visita la feria de Chillán.\nElla pide miel de abeja silvestre.\nLa miel es rica y tiene piñita fina.',img:'🍯'},
+   ejercicios:[{palabra:'miel',silabas:['miel'],opciones:['miel','piel','fiel','riel']},{palabra:'camisa',silabas:['ca','mi','sa'],opciones:['ca','mi','sa','ti','si']},{palabra:'sirena',silabas:['si','re','na'],opciones:['si','re','na','mi','ti']}]},
+
+  {semana:3,vocal:'I',titulo:'Escribimos con I',subtitulo:'Dictado con A, E e I',col:'#dc2626',
+   silabas:[{s:'bi',e:'🚲',p:'bici'},{s:'li',e:'📚',p:'libro'},{s:'mi',e:'🍯',p:'miel'},{s:'ni',e:'❄',p:'nieve'},{s:'pi',e:'🍍',p:'piña'},{s:'si',e:'🧜',p:'sirena'},{s:'ti',e:'✂',p:'tijera'},{s:'vi',e:'🍇',p:'viña'},{s:'chi',e:'🍌',p:'chirimoya'}],
+   palabrasDictado:['chimenea','piñata','medicina','bicicleta','caricita','servilleta','milésima','viñatera','sirenita','fidelina'],
+   frases:['La bicicleta de Camila es lila.','La piñata tiene caramelos de miel.','Mi medicina sabe a miel de abeja.'],
+   textoLectura:{txt:'Camila tiene su bicicleta lila.\nMili la perrita camina a su side.\nMía le trae medicina de miel fina.',img:'🐶'},
+   ejercicios:[{palabra:'bicicleta',silabas:['bi','ci','cle','ta'],opciones:['bi','ci','cle','ta','mi','si']},{palabra:'perrita',silabas:['pe','rri','ta'],opciones:['pe','rri','ta','mi','si']},{palabra:'medicina',silabas:['me','di','ci','na'],opciones:['me','di','ci','na','ti','pi']}]},
+
+  {semana:3,vocal:'I',titulo:'Repaso de la I',subtitulo:'Repaso de A, E e I',col:'#dc2626',
+   silabas:[{s:'bi',e:'🚲',p:'bici'},{s:'chi',e:'🍌',p:'chirimoya'},{s:'li',e:'📚',p:'libro'},{s:'mi',e:'🍯',p:'miel'},{s:'ni',e:'❄',p:'nieve'},{s:'pi',e:'🍍',p:'piña'},{s:'si',e:'🧜',p:'sirena'},{s:'ti',e:'✂',p:'tijera'},{s:'vi',e:'🍇',p:'viña'}],
+   palabrasDictado:['Camila','mamita','gatita','perrita','sirena','tijera','camiseta','viñita','ciencia','piñata'],
+   frases:['Camila cuida a su gatita fina.','La sirena vive en el mar de Chile.','Mi mamita tiene bicicleta lila.'],
+   textoLectura:{txt:'Camila peina a su gatita fina.\nLa sirena le canta en la ribera.\nMía tiene ciencia y piñata para Camila.',img:'👧'},
+   ejercicios:[{palabra:'gatita',silabas:['ga','ti','ta'],opciones:['ga','ti','ta','si','mi']},{palabra:'sirena',silabas:['si','re','na'],opciones:['si','re','na','ti','mi']},{palabra:'ciencia',silabas:['cien','cia'],opciones:['cien','cia','si','mi']}]},
+
+  {semana:4,vocal:'O',titulo:'La vocal O',subtitulo:'Conocemos la O y sus sílabas',col:'#d97706',
+   silabas:[{s:'bo',e:'🛥',p:'bote'},{s:'co',e:'🐰',p:'conejo'},{s:'cho',e:'🌽',p:'choclo'},{s:'do',e:'🎁',p:'domingo'},{s:'fo',e:'🦭',p:'foca'},{s:'go',e:'🔵',p:'gorro'},{s:'ho',e:'🍃',p:'hoja'},{s:'jo',e:'💎',p:'joya'},{s:'lo',e:'🐺',p:'lobo'},{s:'mo',e:'🎒',p:'mochila'},{s:'no',e:'🌙',p:'noche'},{s:'po',e:'🥧',p:'postre'},{s:'ro',e:'🌹',p:'rosa'},{s:'so',e:'☀',p:'sol'},{s:'to',e:'🐢',p:'tortuga'},{s:'vo',e:'🌋',p:'volcán'},{s:'yo',e:'🥛',p:'yogur'},{s:'zo',e:'🦊',p:'zorro'}],
+   palabrasDictado:['oso','toro','loro','polo','loco','mono','pozo','moto','foto','bota'],
+   frases:['El toro come pasto solo.','El loro repite todo.','Mamá saca foto del oso.'],
+   textoLectura:{txt:'El toro solo come pasto en el potrero.\nEl loro repite todo lo del patio.\nMamá saca la foto del oso con la moto.',img:'🐄'},
+   ejercicios:[{palabra:'toro',silabas:['to','ro'],opciones:['to','ro','mo','co']},{palabra:'potrero',silabas:['po','tre','ro'],opciones:['po','tre','ro','mo','to']},{palabra:'loro',silabas:['lo','ro'],opciones:['lo','ro','mo','co']}]},
+
+  {semana:4,vocal:'O',titulo:'Practicamos la O',subtitulo:'Más palabras con O',col:'#d97706',
+   silabas:[{s:'bo',e:'🛥',p:'bote'},{s:'co',e:'🐰',p:'conejo'},{s:'do',e:'🎁',p:'domingo'},{s:'go',e:'🔵',p:'gorro'},{s:'lo',e:'🐺',p:'lobo'},{s:'mo',e:'🎒',p:'mochila'},{s:'no',e:'🌙',p:'noche'},{s:'po',e:'🥧',p:'postre'},{s:'ro',e:'🌹',p:'rosa'},{s:'so',e:'☀',p:'sol'},{s:'to',e:'🐢',p:'tortuga'},{s:'zo',e:'🦊',p:'zorro'}],
+   palabrasDictado:['tomate','conejo','molino','pololo','cosecha','portero','bolsillo','coloso','sombrero','botones'],
+   frases:['El pololo de Camila es simpático.','La cosecha de tomate es bonita.','El portero abre la puerta con calma.'],
+   textoLectura:{txt:'El pato Polo nada en el lago solo.\nLola lo mira desde la orilla con cariño.\nEl pololo de Camila le tira tomate rojo.',img:'🦆'},
+   ejercicios:[{palabra:'pololo',silabas:['po','lo','lo'],opciones:['po','lo','lo','mo','to']},{palabra:'tomate',silabas:['to','ma','te'],opciones:['to','ma','te','mo','co']},{palabra:'orilla',silabas:['o','ri','lla'],opciones:['o','ri','lla','mo','po']}]},
+
+  {semana:4,vocal:'O',titulo:'Escribimos con O',subtitulo:'Dictado con A, E, I y O',col:'#d97706',
+   silabas:[{s:'bo',e:'🛥',p:'bote'},{s:'co',e:'🐰',p:'conejo'},{s:'lo',e:'🐺',p:'lobo'},{s:'mo',e:'🎒',p:'mochila'},{s:'no',e:'🌙',p:'noche'},{s:'po',e:'🥧',p:'postre'},{s:'ro',e:'🌹',p:'rosa'},{s:'so',e:'☀',p:'sol'},{s:'to',e:'🐢',p:'tortuga'}],
+   palabrasDictado:['locomotora','bolsillo','colección','molinillo','toronjil','robotito','comedor','porotillo','colimillo','monótono'],
+   frases:['El comedor de la escuela está limpio.','El toronjil crece en el campo chileno.','Mi robotito toca melodía solo.'],
+   textoLectura:{txt:'El loro Pipo vive en el comedor.\nPipo repite todo lo del colegio.\nEl robotito toca melodía solo en el potrero.',img:'🦜'},
+   ejercicios:[{palabra:'comedor',silabas:['co','me','dor'],opciones:['co','me','dor','mo','to']},{palabra:'colegio',silabas:['co','le','gio'],opciones:['co','le','gio','mo','po']},{palabra:'robotito',silabas:['ro','bo','ti','to'],opciones:['ro','bo','ti','to','mo','co']}]},
+
+  {semana:4,vocal:'O',titulo:'Repaso de la O',subtitulo:'Repaso de A, E, I y O',col:'#d97706',
+   silabas:[{s:'bo',e:'🛥',p:'bote'},{s:'co',e:'🐰',p:'conejo'},{s:'lo',e:'🐺',p:'lobo'},{s:'mo',e:'🎒',p:'mochila'},{s:'no',e:'🌙',p:'noche'},{s:'po',e:'🥧',p:'postre'},{s:'ro',e:'🌹',p:'rosa'},{s:'so',e:'☀',p:'sol'},{s:'to',e:'🐢',p:'tortuga'}],
+   palabrasDictado:['potrero','colegio','borrego','bolsillo','molinero','colmillo','portero','sombrero','tortilla','polisón'],
+   frases:['El colegio tiene patio bonito.','El potrero tiene osos solos.','El borrego come pasto mojado.'],
+   textoLectura:{txt:'Lola pasea por el potrero del colegio.\nEl borrego come pasto mojado solo.\nElla ve el colmillo del toro en el portero.',img:'🌲'},
+   ejercicios:[{palabra:'potrero',silabas:['po','tre','ro'],opciones:['po','tre','ro','mo','to']},{palabra:'colegio',silabas:['co','le','gio'],opciones:['co','le','gio','mo','lo']},{palabra:'borrego',silabas:['bo','rre','go'],opciones:['bo','rre','go','mo','to']}]},
+
+  {semana:5,vocal:'U',titulo:'La vocal U',subtitulo:'Conocemos la U y sus sílabas',col:'#7c3aed',
+   silabas:[{s:'bu',e:'🦉',p:'búho'},{s:'chu',e:'🎩',p:'chupete'},{s:'cu',e:'🗡',p:'cuchillo'},{s:'du',e:'🍬',p:'dulce'},{s:'fu',e:'🔥',p:'fuego'},{s:'gu',e:'🧤',p:'guante'},{s:'hu',e:'🦴',p:'hueso'},{s:'ju',e:'⚽',p:'jugador'},{s:'llu',e:'🌧',p:'lluvia'},{s:'mu',e:'🎵',p:'música'},{s:'pu',e:'🐙',p:'pulpo'},{s:'ru',e:'🛞',p:'rueda'},{s:'su',e:'☀',p:'sur'},{s:'tu',e:'🪗',p:'tuba'},{s:'vu',e:'🕊',p:'vuelo'},{s:'zu',e:'🧃',p:'zumo'}],
+   palabrasDictado:['luna','nube','mula','puma','suma','sube','ruta','lupa','tubo','bulla'],
+   frases:['La luna sale en la noche.','La nube tapa el sol.','El puma corre por la ruta.'],
+   textoLectura:{txt:'La luna sale sobre el sur del río Bueno.\nLa nube tapa el sol del sur.\nEl puma corre por la ruta con su lupa.',img:'🌙'},
+   ejercicios:[{palabra:'luna',silabas:['lu','na'],opciones:['lu','na','su','mu']},{palabra:'nube',silabas:['nu','be'],opciones:['nu','be','su','lu']},{palabra:'puma',silabas:['pu','ma'],opciones:['pu','ma','su','lu']}]},
+
+  {semana:5,vocal:'U',titulo:'Practicamos la U',subtitulo:'Más palabras con U',col:'#7c3aed',
+   silabas:[{s:'bu',e:'🦉',p:'búho'},{s:'cu',e:'🗡',p:'cuchillo'},{s:'du',e:'🍬',p:'dulce'},{s:'fu',e:'🔥',p:'fuego'},{s:'ju',e:'⚽',p:'jugador'},{s:'mu',e:'🎵',p:'música'},{s:'pu',e:'🐙',p:'pulpo'},{s:'ru',e:'🛞',p:'rueda'},{s:'su',e:'☀',p:'sur'},{s:'tu',e:'🪗',p:'tuba'},{s:'vu',e:'🕊',p:'vuelo'},{s:'zu',e:'🧃',p:'zumo'}],
+   palabrasDictado:['cuchillo','burbuja','cubeta','cumbia','mugido','bufanda','muralla','zurdo','cultivo','tumulo'],
+   frases:['El cuchillo es de la cocina.','La bufanda abriga en el sur.','La muralla del fuerte es antigua.'],
+   textoLectura:{txt:'La bufanda de lana abriga en el sur.\nEl cuchillo de campo está en la cocina.\nLa muralla del fuerte de Valdivia es muy antigua.',img:'🧣'},
+   ejercicios:[{palabra:'bufanda',silabas:['bu','fan','da'],opciones:['bu','fan','da','su','mu']},{palabra:'cuchillo',silabas:['cu','chi','llo'],opciones:['cu','chi','llo','su','pu']},{palabra:'muralla',silabas:['mu','ra','lla'],opciones:['mu','ra','lla','su','bu']}]},
+
+  {semana:5,vocal:'U',titulo:'Escribimos con U',subtitulo:'Dictado con todas las vocales',col:'#7c3aed',
+   silabas:[{s:'bu',e:'🦉',p:'búho'},{s:'cu',e:'🗡',p:'cuchillo'},{s:'fu',e:'🔥',p:'fuego'},{s:'ju',e:'⚽',p:'jugador'},{s:'mu',e:'🎵',p:'música'},{s:'pu',e:'🐙',p:'pulpo'},{s:'ru',e:'🛞',p:'rueda'},{s:'su',e:'☀',p:'sur'},{s:'tu',e:'🪗',p:'tuba'}],
+   palabrasDictado:['cuaderno','uniforme','cumpleaños','burbujita','murmullo','turbulento','luminoso','unifamiliar','culturoso','puñetudo'],
+   frases:['El uniforme del colegio es azul.','El cuaderno de Úrsula tiene dibujos.','El murmullo del río es suave.'],
+   textoLectura:{txt:'El uniforme del colegio de Úrsula es azul.\nSu cuaderno tiene dibujos del río Bueno.\nEl murmullo del río suena suave en el sur.',img:'🎒'},
+   ejercicios:[{palabra:'uniforme',silabas:['u','ni','for','me'],opciones:['u','ni','for','me','su','pu']},{palabra:'cuaderno',silabas:['cua','der','no'],opciones:['cua','der','no','su','mu']},{palabra:'murmullo',silabas:['mur','mu','llo'],opciones:['mur','mu','llo','su','bu']}]},
+
+  {semana:5,vocal:'U',titulo:'¡Lo lograste!',subtitulo:'Repaso final de las 5 vocales A E I O U',col:'#7c3aed',
+   silabas:[{s:'ma',e:'🍞',p:'marraqueta'},{s:'pe',e:'🐟',p:'pez'},{s:'pi',e:'🍍',p:'piña'},{s:'mo',e:'🎒',p:'mochila'},{s:'mu',e:'🎵',p:'música'},{s:'ca',e:'🏠',p:'casa'},{s:'le',e:'🪵',p:'leña'},{s:'ti',e:'✂',p:'tijera'},{s:'lo',e:'🐺',p:'lobo'},{s:'su',e:'☀',p:'sur'},{s:'la',e:'🦞',p:'langosta'},{s:'te',e:'🍵',p:'tecito'}],
+   palabrasDictado:['marraqueta','quesillo','pololo','cumbia','cuchillo','bufanda','bicicleta','toronjil','murmullo','chirimoya'],
+   frases:['Úrsula come marraqueta con quesillo.','Camila pedalea su bicicleta en el sur.','El murmullo del río Bueno es hermoso.'],
+   textoLectura:{txt:'Úrsula come marraqueta con quesillo del sur.\nCamila pedalea su bicicleta por el colegio.\nEl murmullo del río Bueno es hermoso.\n¡Aprendimos todas las vocales!',img:'🎉'},
+   ejercicios:[{palabra:'marraqueta',silabas:['ma','rra','que','ta'],opciones:['ma','rra','que','ta','su','mu']},{palabra:'bicicleta',silabas:['bi','ci','cle','ta'],opciones:['bi','ci','cle','ta','su','pu']},{palabra:'murmullo',silabas:['mur','mu','llo'],opciones:['mur','mu','llo','su','bu']}]}
+];
+
+
+const BANCO_PALABRAS = {
+  // VOCAL A
+  'ba': [{palabra:'balde',  silabas:['ba','lde'],  pista:'🪣'},
+         {palabra:'barco',  silabas:['bar','co'],  pista:'⛵'},
+         {palabra:'bata',   silabas:['ba','ta'],   pista:'👘'}],
+  'ca': [{palabra:'casa',   silabas:['ca','sa'],   pista:'🏠'},
+         {palabra:'cama',   silabas:['ca','ma'],   pista:'🛏'},
+         {palabra:'campo',  silabas:['cam','po'],  pista:'🌾'}],
+  'cha':[{palabra:'chaleco',silabas:['cha','le','co'],pista:'🧥'},
+         {palabra:'chapa',  silabas:['cha','pa'],  pista:'🔑'}],
+  'da': [{palabra:'dado',   silabas:['da','do'],   pista:'🎲'},
+         {palabra:'dama',   silabas:['da','ma'],   pista:'👑'}],
+  'fa': [{palabra:'farol',  silabas:['fa','rol'],  pista:'🏮'},
+         {palabra:'fama',   silabas:['fa','ma'],   pista:'⭐'}],
+  'ga': [{palabra:'gato',   silabas:['ga','to'],   pista:'🐱'},
+         {palabra:'galleta',silabas:['ga','lle','ta'],pista:'🍪'}],
+  'ha': [{palabra:'hacha',  silabas:['ha','cha'],  pista:'🪓'},
+         {palabra:'hamaca', silabas:['ha','ma','ca'],pista:'🛖'}],
+  'ja': [{palabra:'jarro',  silabas:['ja','rro'],  pista:'🫙'},
+         {palabra:'jarra',  silabas:['ja','rra'],  pista:'🏺'}],
+  'la': [{palabra:'lagarto',silabas:['la','gar','to'],pista:'🦎'},
+         {palabra:'lata',   silabas:['la','ta'],   pista:'🥫'}],
+  'ma': [{palabra:'marraqueta',silabas:['ma','rra','que','ta'],pista:'🍞'},
+         {palabra:'mano',   silabas:['ma','no'],   pista:'🖐'},
+         {palabra:'mama',   silabas:['ma','má'],   pista:'👩'}],
+  'na': [{palabra:'naranja',silabas:['na','ran','ja'],pista:'🍊'},
+         {palabra:'nana',   silabas:['na','na'],   pista:'👵'}],
+  'pa': [{palabra:'papa',   silabas:['pa','pa'],   pista:'🥔'},
+         {palabra:'paloma', silabas:['pa','lo','ma'],pista:'🕊'}],
+  'ra': [{palabra:'ratón',  silabas:['ra','tón'],  pista:'🐭'},
+         {palabra:'rama',   silabas:['ra','ma'],   pista:'🌿'}],
+  'sa': [{palabra:'sal',    silabas:['sal'],       pista:'🧂'},
+         {palabra:'sala',   silabas:['sa','la'],   pista:'🏠'}],
+  'ta': [{palabra:'tambor', silabas:['tam','bor'], pista:'🥁'},
+         {palabra:'taza',   silabas:['ta','za'],   pista:'☕'}],
+  'va': [{palabra:'vaca',   silabas:['va','ca'],   pista:'🐄'},
+         {palabra:'valle',  silabas:['va','lle'],  pista:'⛰'}],
+  'ya': [{palabra:'yate',   silabas:['ya','te'],   pista:'⛵'}],
+  'za': [{palabra:'zapato', silabas:['za','pa','to'],pista:'👟'},
+         {palabra:'zanahoria',silabas:['za','na','ho','ria'],pista:'🥕'}],
+  // VOCAL E
+  'be': [{palabra:'bebida', silabas:['be','bi','da'],pista:'🥤'},
+         {palabra:'beso',   silabas:['be','so'],   pista:'💋'}],
+  'ce': [{palabra:'cebra',  silabas:['ce','bra'],  pista:'🦓'},
+         {palabra:'cereza', silabas:['ce','re','za'],pista:'🍒'}],
+  'che':[{palabra:'chelo',  silabas:['che','lo'],  pista:'🎻'},
+         {palabra:'cheque', silabas:['che','que'], pista:'📄'}],
+  'de': [{palabra:'delfín', silabas:['del','fín'], pista:'🐬'},
+         {palabra:'dedal',  silabas:['de','dal'],  pista:'🧵'}],
+  'fe': [{palabra:'feria',  silabas:['fe','ria'],  pista:'🎡'},
+         {palabra:'feto',   silabas:['fe','to'],   pista:'🌱'}],
+  'ge': [{palabra:'gelatina',silabas:['ge','la','ti','na'],pista:'🍮'}],
+  'he': [{palabra:'helecho',silabas:['he','le','cho'],pista:'🌿'},
+         {palabra:'helado', silabas:['he','la','do'],pista:'🍦'}],
+  'je': [{palabra:'jengibre',silabas:['jen','gi','bre'],pista:'🫚'},
+         {palabra:'jefe',   silabas:['je','fe'],   pista:'👔'}],
+  'le': [{palabra:'leña',   silabas:['le','ña'],   pista:'🪵'},
+         {palabra:'leche',  silabas:['le','che'],  pista:'🥛'}],
+  'me': [{palabra:'membrillo',silabas:['mem','bri','llo'],pista:'🍐'},
+         {palabra:'mesa',   silabas:['me','sa'],   pista:'🪑'}],
+  'ne': [{palabra:'neblina',silabas:['ne','bli','na'],pista:'🌫'},
+         {palabra:'nene',   silabas:['ne','ne'],   pista:'👶'}],
+  'pe': [{palabra:'pez',    silabas:['pez'],       pista:'🐟'},
+         {palabra:'pera',   silabas:['pe','ra'],   pista:'🍐'}],
+  'que':[{palabra:'quesillo',silabas:['que','si','llo'],pista:'🧀'},
+         {palabra:'queso',  silabas:['que','so'],  pista:'🧀'}],
+  're': [{palabra:'reloj',  silabas:['re','loj'],  pista:'⌚'},
+         {palabra:'reja',   silabas:['re','ja'],   pista:'🔒'}],
+  'se': [{palabra:'semilla',silabas:['se','mi','lla'],pista:'🌱'},
+         {palabra:'seda',   silabas:['se','da'],   pista:'🎀'}],
+  'te': [{palabra:'tecito', silabas:['te','ci','to'],pista:'🍵'},
+         {palabra:'tela',   silabas:['te','la'],   pista:'🧶'}],
+  've': [{palabra:'vela',   silabas:['ve','la'],   pista:'🕯'},
+         {palabra:'vena',   silabas:['ve','na'],   pista:'💉'}],
+  'ye': [{palabra:'yegua',  silabas:['ye','gua'],  pista:'🐴'},
+         {palabra:'yema',   silabas:['ye','ma'],   pista:'🍳'}],
+  // VOCAL I
+  'bi': [{palabra:'bici',   silabas:['bi','ci'],   pista:'🚲'},
+         {palabra:'bicho',  silabas:['bi','cho'],  pista:'🐛'}],
+  'chi':[{palabra:'chirimoya',silabas:['chi','ri','mo','ya'],pista:'🍌'},
+         {palabra:'chile',  silabas:['chi','le'],  pista:'🌶'}],
+  'ci': [{palabra:'cisne',  silabas:['cis','ne'],  pista:'🦢'},
+         {palabra:'cinta',  silabas:['cin','ta'],  pista:'🎀'}],
+  'di': [{palabra:'dinero', silabas:['di','ne','ro'],pista:'💰'},
+         {palabra:'disco',  silabas:['dis','co'],  pista:'💿'}],
+  'fi': [{palabra:'fideos', silabas:['fi','de','os'],pista:'🍜'},
+         {palabra:'fila',   silabas:['fi','la'],   pista:'👥'}],
+  'gi': [{palabra:'girasol',silabas:['gi','ra','sol'],pista:'🌻'},
+         {palabra:'gigante',silabas:['gi','gan','te'],pista:'🏔'}],
+  'gui':[{palabra:'guitarra',silabas:['gui','ta','rra'],pista:'🎸'},
+         {palabra:'guinda', silabas:['guin','da'], pista:'🍒'}],
+  'hi': [{palabra:'hilo',   silabas:['hi','lo'],   pista:'🧵'},
+         {palabra:'hierba', silabas:['hier','ba'], pista:'🌿'}],
+  'ji': [{palabra:'jinete', silabas:['ji','ne','te'],pista:'🏇'},
+         {palabra:'jirafa', silabas:['ji','ra','fa'],pista:'🦒'}],
+  'ki': [{palabra:'kiwi',   silabas:['ki','wi'],   pista:'🥝'}],
+  'li': [{palabra:'libro',  silabas:['li','bro'],  pista:'📚'},
+         {palabra:'lima',   silabas:['li','ma'],   pista:'🍋'}],
+  'mi': [{palabra:'miel',   silabas:['miel'],      pista:'🍯'},
+         {palabra:'miga',   silabas:['mi','ga'],   pista:'🍞'}],
+  'ni': [{palabra:'nieve',  silabas:['nie','ve'],  pista:'❄'},
+         {palabra:'niño',   silabas:['ni','ño'],   pista:'👦'}],
+  'pi': [{palabra:'piña',   silabas:['pi','ña'],   pista:'🍍'},
+         {palabra:'pino',   silabas:['pi','no'],   pista:'🌲'}],
+  'ri': [{palabra:'risa',   silabas:['ri','sa'],   pista:'😂'},
+         {palabra:'río',    silabas:['rí','o'],    pista:'🏞'}],
+  'si': [{palabra:'sirena', silabas:['si','re','na'],pista:'🧜'},
+         {palabra:'silla',  silabas:['si','lla'],  pista:'🪑'}],
+  'ti': [{palabra:'tijera', silabas:['ti','je','ra'],pista:'✂'},
+         {palabra:'tina',   silabas:['ti','na'],   pista:'🛁'}],
+  'vi': [{palabra:'viña',   silabas:['vi','ña'],   pista:'🍇'},
+         {palabra:'vidrio', silabas:['vi','drio'], pista:'🪟'}],
+  // VOCAL O
+  'bo': [{palabra:'bote',   silabas:['bo','te'],   pista:'🛥'},
+         {palabra:'bolso',  silabas:['bol','so'],  pista:'👜'}],
+  'co': [{palabra:'conejo', silabas:['co','ne','jo'],pista:'🐰'},
+         {palabra:'colegio',silabas:['co','le','gio'],pista:'🏫'}],
+  'cho':[{palabra:'choclo', silabas:['cho','clo'], pista:'🌽'},
+         {palabra:'chorizo',silabas:['cho','ri','zo'],pista:'🌭'}],
+  'do': [{palabra:'domingo',silabas:['do','min','go'],pista:'📅'},
+         {palabra:'domo',   silabas:['do','mo'],   pista:'🏠'}],
+  'fo': [{palabra:'foca',   silabas:['fo','ca'],   pista:'🦭'},
+         {palabra:'foto',   silabas:['fo','to'],   pista:'📷'}],
+  'go': [{palabra:'gorro',  silabas:['go','rro'],  pista:'🔵'},
+         {palabra:'gorila', silabas:['go','ri','la'],pista:'🦍'}],
+  'ho': [{palabra:'hoja',   silabas:['ho','ja'],   pista:'🍃'},
+         {palabra:'hogar',  silabas:['ho','gar'],  pista:'🏠'}],
+  'jo': [{palabra:'joya',   silabas:['jo','ya'],   pista:'💎'},
+         {palabra:'jota',   silabas:['jo','ta'],   pista:'🎵'}],
+  'lo': [{palabra:'lobo',   silabas:['lo','bo'],   pista:'🐺'},
+         {palabra:'loro',   silabas:['lo','ro'],   pista:'🦜'}],
+  'mo': [{palabra:'mochila',silabas:['mo','chi','la'],pista:'🎒'},
+         {palabra:'mono',   silabas:['mo','no'],   pista:'🐒'}],
+  'no': [{palabra:'noche',  silabas:['no','che'],  pista:'🌙'},
+         {palabra:'novia',  silabas:['no','via'],  pista:'💍'}],
+  'po': [{palabra:'postre', silabas:['pos','tre'], pista:'🍮'},
+         {palabra:'pololo', silabas:['po','lo','lo'],pista:'💑'}],
+  'ro': [{palabra:'rosa',   silabas:['ro','sa'],   pista:'🌹'},
+         {palabra:'robot',  silabas:['ro','bot'],  pista:'🤖'}],
+  'so': [{palabra:'sol',    silabas:['sol'],       pista:'☀'},
+         {palabra:'sopa',   silabas:['so','pa'],   pista:'🥣'}],
+  'to': [{palabra:'tortuga',silabas:['tor','tu','ga'],pista:'🐢'},
+         {palabra:'tomate', silabas:['to','ma','te'],pista:'🍅'}],
+  'vo': [{palabra:'volcán', silabas:['vol','cán'], pista:'🌋'},
+         {palabra:'volante',silabas:['vo','lan','te'],pista:'🎡'}],
+  'yo': [{palabra:'yogur',  silabas:['yo','gur'],  pista:'🥛'}],
+  'zo': [{palabra:'zorro',  silabas:['zo','rro'],  pista:'🦊'},
+         {palabra:'zona',   silabas:['zo','na'],   pista:'📍'}],
+  // VOCAL U
+  'bu': [{palabra:'búho',   silabas:['bú','ho'],   pista:'🦉'},
+         {palabra:'burro',  silabas:['bu','rro'],  pista:'🫏'}],
+  'chu':[{palabra:'chupete',silabas:['chu','pe','te'],pista:'🎩'},
+         {palabra:'churro', silabas:['chu','rro'], pista:'🥐'}],
+  'cu': [{palabra:'cuchillo',silabas:['cu','chi','llo'],pista:'🔪'},
+         {palabra:'cuna',   silabas:['cu','na'],   pista:'🛏'}],
+  'du': [{palabra:'dulce',  silabas:['dul','ce'],  pista:'🍬'},
+         {palabra:'durazno',silabas:['du','raz','no'],pista:'🍑'}],
+  'fu': [{palabra:'fuego',  silabas:['fue','go'],  pista:'🔥'},
+         {palabra:'fútbol', silabas:['fút','bol'], pista:'⚽'}],
+  'gu': [{palabra:'guante', silabas:['guan','te'], pista:'🧤'},
+         {palabra:'guagua', silabas:['gua','gua'], pista:'👶'}],
+  'hu': [{palabra:'hueso',  silabas:['hue','so'],  pista:'🦴'},
+         {palabra:'huevo',  silabas:['hue','vo'],  pista:'🥚'}],
+  'ju': [{palabra:'jugador',silabas:['ju','ga','dor'],pista:'⚽'},
+         {palabra:'jugo',   silabas:['ju','go'],   pista:'🧃'}],
+  'llu':[{palabra:'lluvia', silabas:['llu','via'], pista:'🌧'}],
+  'mu': [{palabra:'música', silabas:['mú','si','ca'],pista:'🎵'},
+         {palabra:'muela',  silabas:['mue','la'],  pista:'🦷'}],
+  'pu': [{palabra:'pulpo',  silabas:['pul','po'],  pista:'🐙'},
+         {palabra:'puerta', silabas:['puer','ta'], pista:'🚪'}],
+  'ru': [{palabra:'rueda',  silabas:['rue','da'],  pista:'🛞'},
+         {palabra:'ruta',   silabas:['ru','ta'],   pista:'🗺'}],
+  'su': [{palabra:'sur',    silabas:['sur'],       pista:'🧭'},
+         {palabra:'sube',   silabas:['su','be'],   pista:'⬆'}],
+  'tu': [{palabra:'tuba',   silabas:['tu','ba'],   pista:'🪗'},
+         {palabra:'tubo',   silabas:['tu','bo'],   pista:'🔧'}],
+  'vu': [{palabra:'vuelo',  silabas:['vue','lo'],  pista:'✈'},
+         {palabra:'vuelta', silabas:['vuel','ta'], pista:'🔄'}],
+  'zu': [{palabra:'zumo',   silabas:['zu','mo'],   pista:'🧃'},
+         {palabra:'zurdo',  silabas:['zur','do'],  pista:'✋'}],
+};
+const JSONBIN_KEY = '$2a$10$aN/wdIxgIPOfUKLfmp6oHuZuelJlkbFPWswWLQRF/kM0EwBCiy5Gy';
+const JSONBIN_BASE = 'https://api.jsonbin.io/v3/b';
+const ALUMNAS_DB = [{"nombre": "Catalina", "rut": "23420823-3", "bin": "69c1f633aa77b81da9125966"}, {"nombre": "Leonel", "rut": "23959701-7", "bin": "69c1f60aaa77b81da91258b3"}];
+
+let diaActual = 0;
+let diasComp = new Set();
+let puntos = 0;
+let velocidad = 0.45;
+let palabraFormada = [];
+let nombreAlumna = '';
+let binIdActual = '';
+let modoInvitado = false;
+const CLAVE_INVITADO = 'invitado';
+
+function formatearRut(inp){
+  let v = inp.value.replace(/[^0-9kK-]/g,'').replace(/-/g,'');
+  if(v.length > 1) inp.value = v.slice(0,-1) + '-' + v.slice(-1).toUpperCase();
+  else inp.value = v;
+}
+
+function normRut(r){ return r.replace(/\./g,'').replace(/\s/g,'').toUpperCase(); }
+
+async function loginConRut(){
+  const inp = document.getElementById('login-rut-inp');
+  const errEl = document.getElementById('login-error');
+  const sav = document.getElementById('login-saving');
+  const rut = normRut(inp.value.trim());
+  if(!rut || rut.length < 3){
+    inp.classList.add('error'); errEl.textContent='Escribe tu RUT.';
+    setTimeout(()=>inp.classList.remove('error'),600); return;
+  }
+  const alumna = ALUMNAS_DB.find(a => normRut(a.rut) === rut);
+  if(!alumna){
+    inp.classList.add('error');
+    errEl.textContent='❌ RUT no encontrado. Consulta a tu docente.';
+    setTimeout(()=>inp.classList.remove('error'),600); return;
+  }
+  errEl.textContent=''; sav.classList.add('vis');
+  try{
+    const datos = await cargarNube(alumna.bin);
+    binIdActual = alumna.bin;
+    nombreAlumna = datos.nombre || alumna.nombre;
+    puntos = datos.puntos || 0;
+    diasComp = new Set(datos.diasComp || []);
+    diaActual = datos.diaActual || 0;
+    // Restaurar secLogradas al localStorage para compatibilidad
+    if(datos.secLogradas){
+      Object.entries(datos.secLogradas).forEach(([k,v])=>{
+        localStorage.setItem('sec_'+k, JSON.stringify(v));
+      });
+    }
+    if(datos.obs) localStorage.setItem('obs_docente', datos.obs);
+    // Ocultar login, mostrar app
+    document.getElementById('login-screen').style.display='none';
+    actualizarHeaderNombre();
+    buildNav(); renderDia();
+    setTimeout(()=>{cargarVoces();actualizarUI_Voz();aplicarLogos();actualizarTabs();},400);
+    hablar('Hola ' + nombreAlumna + ', bienvenida. Continuamos donde quedaste.', velocidad);
+    mostrarBurbuja('👋 ¡Hola, ' + nombreAlumna + '!');
+  } catch(e){
+    errEl.textContent='Error de conexión. Verifica internet e intenta de nuevo.';
+    sav.classList.remove('vis');
+  }
+}
+
+async function cargarNube(binId){
+  const r = await fetch(JSONBIN_BASE+'/'+binId+'/latest',{
+    headers:{'X-Master-Key': JSONBIN_KEY}
+  });
+  if(!r.ok) throw new Error('Error al leer bin');
+  const j = await r.json();
+  return j.record;
+}
+
+async function guardarNube(){
+  if(!binIdActual || modoInvitado) return;
+  const secLogradas = {};
+  for(let i=0;i<20;i++){
+    const v = localStorage.getItem('sec_'+i);
+    if(v) secLogradas[i] = JSON.parse(v);
+  }
+  const datos = {
+    nombre: nombreAlumna,
+    rut: (ALUMNAS_DB.find(a=>a.bin===binIdActual)||{}).rut || '',
+    puntos, diasComp:[...diasComp], diaActual, secLogradas,
+    obs: localStorage.getItem('obs_docente')||''
+  };
+  try{
+    await fetch(JSONBIN_BASE+'/'+binIdActual,{
+      method:'PUT',
+      headers:{'Content-Type':'application/json','X-Master-Key':JSONBIN_KEY},
+      body: JSON.stringify(datos)
+    });
+  } catch(e){ console.warn('Error al guardar en nube',e); }
+}
+
+function guardar(){
+  localStorage.setItem('dc',JSON.stringify([...diasComp]));
+  localStorage.setItem('pts',puntos);
+  localStorage.setItem('dia_actual', diaActual);
+  if(binIdActual) localStorage.setItem('bin_sesion', binIdActual);
+  if(nombreAlumna) localStorage.setItem('nombre_alumna', nombreAlumna);
+  guardarNube();
+}
+
+// ── Sistema de voces simplificado ──────────────────────────
+// Voz 1: Paulina (es-MX, mujer) - muy lenta
+// Voz 2: Niño (pitch alto, masculino) - muy lento
+let vozActual = 'paulina'; // 'paulina' | 'nino'
+let vozPaulina = null;
+let vozNino   = null;
+
+function cargarVoces(){
+  const todas = window.speechSynthesis.getVoices();
+  if(!todas.length) return;
+
+  // Buscar Paulina: nombre exacto "Paulina" o "es-MX" femenina
+  vozPaulina = todas.find(v => v.name === 'Paulina')
+    || todas.find(v => v.name.toLowerCase().includes('paulina'))
+    || todas.find(v => v.lang === 'es-MX' && v.name.toLowerCase().includes('female'))
+    || todas.find(v => v.lang === 'es-MX')
+    || todas.find(v => v.lang.startsWith('es'));
+
+  // Buscar voz masculina para niño: Diego (es-MX) o cualquier masculina española
+  vozNino = todas.find(v => v.name === 'Diego')
+    || todas.find(v => v.name.toLowerCase().includes('diego'))
+    || todas.find(v => v.name.toLowerCase().includes('jorge'))
+    || todas.find(v => v.name.toLowerCase().includes('juan'))
+    || todas.find(v => v.lang.startsWith('es') && v.name !== (vozPaulina && vozPaulina.name))
+    || todas.find(v => v.lang.startsWith('es'));
+
+  actualizarUI_Voz();
+}
+
+function seleccionarVoz(tipo){
+  vozActual = tipo;
+  actualizarUI_Voz();
+}
+
+function actualizarUI_Voz(){
+  document.querySelectorAll('.voz-btn').forEach(b=>b.classList.remove('sel'));
+  const btn = document.getElementById('vbtn_' + vozActual);
+  if(btn) btn.classList.add('sel');
+  const nomEl = document.getElementById('voz-nombre');
+  if(nomEl){
+    const voz = vozActual === 'paulina' ? vozPaulina : vozNino;
+    nomEl.textContent = voz ? voz.name : 'Voz del sistema';
+  }
+}
+
+function hablar(txt, r){
+  if(!window.speechSynthesis) return;
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(txt);
+  u.lang = 'es-MX';
+  // Velocidad siempre muy lenta (máximo 0.6)
+  u.rate  = Math.min(r || velocidad, 0.6);
+  if(vozActual === 'paulina'){
+    u.pitch = 1.1;
+    if(vozPaulina) u.voice = vozPaulina;
+  } else {
+    // Niño: pitch alto para simular voz infantil masculina
+    u.pitch = 1.55;
+    u.rate  = Math.min(u.rate, 0.55);
+    if(vozNino) u.voice = vozNino;
+  }
+  window.speechSynthesis.speak(u);
+}
+
+window.speechSynthesis.onvoiceschanged = cargarVoces;
+setTimeout(cargarVoces, 400);
+setTimeout(cargarVoces, 1200);
+
+function renderReporte(){
+  const sec = document.getElementById('sec-reporte');
+  if(!sec) return;
+
+  const totalDias = DIAS.length;
+  const completados = diasComp.size;
+  const pct = Math.round((completados/totalDias)*100);
+  const hoy = new Date().toLocaleDateString('es-CL',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+
+  // Calcular estadísticas de dictado
+  const aciertos = parseInt(localStorage.getItem('aciertos')||'0');
+  const intentos = parseInt(localStorage.getItem('intentos')||'0');
+  const pctAciertos = intentos > 0 ? Math.round((aciertos/intentos)*100) : 0;
+
+  // Semanas
+  const semanas = [
+    {num:1,vocal:'A',color:'#4f46e5',bg:'#ede9fe',dias:[0,1,2,3]},
+    {num:2,vocal:'E',color:'#059669',bg:'#d1fae5',dias:[4,5,6,7]},
+    {num:3,vocal:'I',color:'#dc2626',bg:'#fee2e2',dias:[8,9,10,11]},
+    {num:4,vocal:'O',color:'#d97706',bg:'#fef3c7',dias:[12,13,14,15]},
+    {num:5,vocal:'U',color:'#7c3aed',bg:'#f3e8ff',dias:[16,17,18,19]},
+  ];
+
+  // Construir logo
+  const logoEl = document.getElementById('_logo_src');
+  const logoSrc = logoEl ? logoEl.src : '';
+
+  let semanasHtml = semanas.map(s => {
+    let diasHtml = s.dias.map(i => {
+      const comp = diasComp.has(i);
+      const act = i === diaActual;
+      const cls = comp ? 'completado' : (act ? 'actual' : 'pendiente');
+      const ico = comp ? '✅' : (act ? '📌' : '⬜');
+      return `<div class="rep-dia ${cls}">
+        <div class="dia-ico">${ico}</div>
+        <div class="dia-num">Día ${i+1}</div>
+      </div>`;
+    }).join('');
+    const compSem = s.dias.filter(i=>diasComp.has(i)).length;
+    return `<div class="rep-semana">
+      <h3 style="background:${s.bg};color:${s.color}">Semana ${s.num} — Vocal ${s.vocal} (${compSem}/4)</h3>
+      <div class="rep-dias-grid">${diasHtml}</div>
+    </div>`;
+  }).join('');
+
+  // Observaciones guardadas
+  const obsGuardada = localStorage.getItem('obs_docente')||'';
+
+  sec.innerHTML = `<div class="card reporte-wrap">
+    <div class="rep-header">
+      <img class="logo-ltp" src="${logoSrc}" style="width:52px;height:52px;">
+      <div class="rep-header-txt">
+        <h2>Reporte de Progreso</h2>
+        <p>Liceo Técnico Profesional de Río Bueno · Docente: Álvaro Barra Sáez</p>
+        <p style="margin-top:2px;font-size:11px;opacity:.7">${hoy}</p>
+      </div>
+    </div>
+
+    <div class="rep-stats">
+      <div class="rep-stat verde">
+        <span class="num">${completados}</span>
+        <span class="lbl">Días completados</span>
+      </div>
+      <div class="rep-stat azul">
+        <span class="num">${pct}%</span>
+        <span class="lbl">Avance total</span>
+      </div>
+      <div class="rep-stat ambar">
+        <span class="num">⭐${puntos}</span>
+        <span class="lbl">Puntos ganados</span>
+      </div>
+    </div>
+
+    <div style="margin-bottom:18px;">
+      <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+        <span style="font-size:13px;font-weight:800;color:#1e1b4b;">Progreso general</span>
+        <span style="font-size:13px;font-weight:800;color:#4f46e5;">${completados}/${totalDias} días</span>
+      </div>
+      <div class="rep-progreso-barra">
+        <div class="rep-progreso-fill" style="width:${pct}%"></div>
+      </div>
+    </div>
+
+    ${semanasHtml}
+
+    <div class="rep-obs">
+      <h4>📝 Observaciones del docente</h4>
+      <textarea id="obs-txt" placeholder="Escribe aquí tus observaciones sobre el progreso del alumno..."
+        onchange="localStorage.setItem('obs_docente',this.value)">${obsGuardada}</textarea>
+    </div>
+
+    <div class="rep-fecha">Generado el ${hoy}</div>
+
+    <button class="rep-print-btn" onclick="window.print()">
+      🖨️ Imprimir reporte
+    </button>
+  </div>`;
+}
+
+// ── Gestión del nombre ──────────────────────────────────────
+function mostrarModalNombre(){
+  const modal = document.getElementById('modal-nombre');
+  if(modal) modal.style.display='flex';
+  setTimeout(()=>{
+    const inp = document.getElementById('modal-input-nombre');
+    if(inp){ inp.value=''; inp.focus(); }
+  }, 100);
+}
+
+function guardarNombre(){
+  const inp = document.getElementById('modal-input-nombre');
+  if(!inp) return;
+  const nombre = inp.value.trim();
+  if(!nombre){ inp.style.borderColor='#ef4444'; inp.focus(); return; }
+  nombreAlumna = nombre;
+  localStorage.setItem('nombre_alumna', nombre);
+  const modal = document.getElementById('modal-nombre');
+  if(modal) modal.style.display='none';
+  actualizarHeaderNombre();
+  // Saludo de bienvenida personalizado
+  setTimeout(()=>{
+    hablar('Hola ' + nombre + '. Bienvenida. Hoy vamos a aprender juntos.', velocidad);
+    mostrarBurbuja('👋 ¡Hola, ' + nombre + '! ¡Bienvenida!');
+  }, 300);
+}
+
+function cambiarNombre(){
+  mostrarModalNombre();
+}
+
+function actualizarHeaderNombre(){
+  const el = document.getElementById('header-nombre');
+  const txt = document.getElementById('header-nombre-txt');
+  if(el && txt && nombreAlumna){
+    txt.textContent = nombreAlumna;
+    el.style.display='block';
+  }
+}
+
+// ── Burbuja de felicitación personalizada ───────────────────
+function mostrarBurbuja(msg){
+  document.querySelectorAll('.burbuja').forEach(b=>b.remove());
+  const b = document.createElement('div');
+  b.className = 'burbuja';
+  b.textContent = msg;
+  document.body.appendChild(b);
+  setTimeout(()=>b.remove(), 3200);
+}
+
+function felicitar(msg, voz){
+  const nombre = nombreAlumna || '';
+  const msgCompleto = nombre ? msg.replace('¡Muy bien!','¡Muy bien, '+nombre+'!') : msg;
+  mostrarBurbuja(msgCompleto);
+  if(voz !== false){
+    const vozTxt = nombre
+      ? (voz || ('¡Muy bien ' + nombre + '!'))
+      : (voz || '¡Muy bien!');
+    hablar(vozTxt, velocidad);
+  }
+}
+
+// ── Panel docente ─────────────────────────────────────────
+const CLAVE_DEFAULT = '20dias2026';
+
+function getClave(){
+  return localStorage.getItem('docente_clave') || CLAVE_DEFAULT;
+}
+
+function abrirPanelDocente(){
+  const panel = document.getElementById('panel-docente');
+  if(panel){ panel.style.display='flex'; }
+  // Resetear login cada vez
+  document.getElementById('docente-login').style.display='block';
+  document.getElementById('docente-panel').style.display='none';
+  document.getElementById('docente-error').textContent='';
+  const inp = document.getElementById('docente-clave-inp');
+  if(inp){ inp.value=''; inp.className='docente-clave-inp'; setTimeout(()=>inp.focus(),100); }
+}
+
+function cerrarPanelDocente(){
+  const panel = document.getElementById('panel-docente');
+  if(panel) panel.style.display='none';
+}
+
+function verificarClaveDocente(){
+  const inp = document.getElementById('docente-clave-inp');
+  const errEl = document.getElementById('docente-error');
+  if(!inp) return;
+  if(inp.value === getClave()){
+    document.getElementById('docente-login').style.display='none';
+    document.getElementById('docente-panel').style.display='block';
+    cargarDatosPanel();
+  } else {
+    inp.className='docente-clave-inp error';
+    errEl.textContent='❌ Clave incorrecta. Inténtalo de nuevo.';
+    inp.value='';
+    setTimeout(()=>{inp.className='docente-clave-inp';},600);
+  }
+}
+
+function cargarDatosPanel(){
+  document.getElementById('dp-nombre').textContent = nombreAlumna || '(sin nombre)';
+  document.getElementById('dp-dias').textContent = diasComp.size + ' / 20';
+  document.getElementById('dp-puntos').textContent = '⭐ ' + puntos;
+  document.getElementById('dp-dia-actual').textContent = 'Día ' + (diaActual + 1);
+  const inp = document.getElementById('dp-nuevo-nombre');
+  if(inp) inp.value = nombreAlumna || '';
+}
+
+function borrarDiaActual(){
+  if(!confirm('¿Borrar el progreso del Día ' + (diaActual+1) + '? Esta acción no se puede deshacer.')) return;
+  diasComp.delete(diaActual);
+  localStorage.removeItem('sec_'+diaActual);
+  localStorage.removeItem('lec_'+diaActual);
+  guardar();
+  buildNav();
+  renderDia();
+  cargarDatosPanel();
+  mostrarBurbuja('🗑 Día ' + (diaActual+1) + ' reiniciado');
+}
+
+function confirmarBorrarTodo(){
+  if(!confirm('⚠ ¿Borrar TODO el progreso de ' + (nombreAlumna||'la alumna') + '? Se perderán todos los datos.')) return;
+  if(!confirm('Esta acción es irreversible. ¿Confirmas?')) return;
+  // Borrar todo el localStorage excepto la clave docente
+  const clave = getClave();
+  localStorage.clear();
+  localStorage.setItem('docente_clave', clave);
+  // Resetear variables
+  diasComp = new Set();
+  puntos = 0;
+  nombreAlumna = '';
+  diaActual = 0;
+  buildNav();
+  renderDia();
+  cerrarPanelDocente();
+  setTimeout(mostrarModalNombre, 400);
+}
+
+function cambiarNombreDesdePanel(){
+  const inp = document.getElementById('dp-nuevo-nombre');
+  if(!inp || !inp.value.trim()) return;
+  nombreAlumna = inp.value.trim();
+  localStorage.setItem('nombre_alumna', nombreAlumna);
+  actualizarHeaderNombre();
+  cargarDatosPanel();
+  mostrarBurbuja('✏️ Nombre actualizado: ' + nombreAlumna);
+}
+
+function cambiarClaveDocente(){
+  const inp = document.getElementById('dp-nueva-clave');
+  if(!inp || inp.value.trim().length < 4){
+    alert('La clave debe tener al menos 4 caracteres.');
+    return;
+  }
+  localStorage.setItem('docente_clave', inp.value.trim());
+  inp.value='';
+  mostrarBurbuja('🔑 Clave actualizada correctamente');
+}
+
+// Cerrar panel al hacer click fuera
+document.addEventListener('click', function(e){
+  const panel = document.getElementById('panel-docente');
+  if(panel && panel.style.display !== 'none'){
+    const box = panel.querySelector('.docente-box');
+    if(box && !box.contains(e.target) && !e.target.closest('[onclick*="abrirPanelDocente"]')){
+      cerrarPanelDocente();
+    }
+  }
+});
+
+// ── Panel docente completo ──────────────────────────────────
+let alumnasDatos = [];
+
+function abrirLoginDocente(){
+  document.getElementById('modal-clave-docente').style.display='flex';
+  setTimeout(()=>{
+    const inp=document.getElementById('clave-docente-login-inp');
+    if(inp){inp.value='';inp.focus();}
+  },100);
+}
+
+function verificarClaveDocenteLogin(){
+  const inp=document.getElementById('clave-docente-login-inp');
+  const err=document.getElementById('clave-docente-login-error');
+  if(inp.value === getClave()){
+    document.getElementById('modal-clave-docente').style.display='none';
+    document.getElementById('login-screen').style.display='none';
+    abrirPanelDocenteCompleto();
+  } else {
+    inp.classList.add('error');
+    err.textContent='❌ Clave incorrecta.';
+    inp.value='';
+    setTimeout(()=>inp.classList.remove('error'),600);
+  }
+}
+
+async function abrirPanelDocenteCompleto(){
+  const pdoc=document.getElementById('pdoc-screen');
+  pdoc.style.display='block';
+  setTimeout(aplicarLogos,100);
+  document.getElementById('pdoc-alumnas-lista').innerHTML=
+    '<div style="text-align:center;padding:30px;color:#6b7280">'+
+    '<div class="spinner" style="margin:0 auto 10px"></div>Cargando datos de las alumnas...</div>';
+  // Cargar datos de todas las alumnas desde JSONbin
+  const lista = JSON.parse(localStorage.getItem('alumnas_extra')||'[]');
+  const todasAlumnas = [...ALUMNAS_DB, ...lista];
+  alumnasDatos=[];
+  for(const a of todasAlumnas){
+    try{
+      const d = await cargarNube(a.bin);
+      alumnasDatos.push({...a, datos:d});
+    } catch(e){
+      alumnasDatos.push({...a, datos:null});
+    }
+  }
+  renderPanelDocente();
+}
+
+function renderPanelDocente(){
+  const lista=document.getElementById('pdoc-alumnas-lista');
+  if(!lista) return;
+  const colores=['#4f46e5','#059669','#dc2626','#d97706','#7c3aed','#0891b2'];
+  // Stats globales
+  const activas=alumnasDatos.filter(a=>a.datos).length;
+  const diasProm=activas>0?Math.round(alumnasDatos.filter(a=>a.datos)
+    .reduce((s,a)=>s+(a.datos.diasComp||[]).length,0)/activas):0;
+  const ptsProm=activas>0?Math.round(alumnasDatos.filter(a=>a.datos)
+    .reduce((s,a)=>s+(a.datos.puntos||0),0)/activas):0;
+  document.getElementById('pdoc-total-alumnas').textContent=activas;
+  document.getElementById('pdoc-dias-prom').textContent=diasProm+'/20';
+  document.getElementById('pdoc-pts-prom').textContent='⭐'+ptsProm;
+  // Tarjetas alumnas
+  lista.innerHTML=alumnasDatos.map((a,idx)=>{
+    const d=a.datos;
+    const color=colores[idx%colores.length];
+    const inicial=(d?d.nombre||a.nombre:a.nombre).charAt(0).toUpperCase();
+    const diasComp=d?(d.diasComp||[]).length:0;
+    const puntos=d?d.puntos||0:0;
+    const pct=Math.round((diasComp/20)*100);
+    const diasDots=Array.from({length:20},(_,i)=>{
+      const comp=d&&(d.diasComp||[]).includes(i);
+      const act=d&&(d.diaActual||0)===i&&!comp;
+      return`<div class="alumna-dia-dot${comp?' ok':act?' act':''}">${i+1}</div>`;
+    }).join('');
+    const obsVal=d?d.obs||'':'';
+    return`<div class="alumna-card${d?'':' loading'}" id="acard_${idx}">
+      <div class="alumna-card-header">
+        <div class="alumna-avatar" style="background:${color}">${inicial}</div>
+        <div class="alumna-card-info" style="flex:1">
+          <h3>${d?d.nombre||a.nombre:a.nombre} ${d?'':'(sin datos)'}</h3>
+          <p>RUT: ${a.rut} · Bin: ${a.bin.slice(0,8)}...</p>
+        </div>
+        <div style="text-align:right">
+          <div style="font-size:22px;font-weight:900;color:${color}">⭐${puntos}</div>
+          <div style="font-size:12px;color:#6b7280">${diasComp}/20 días</div>
+        </div>
+      </div>
+      <div class="alumna-prog-barra"><div class="alumna-prog-fill" style="width:${pct}%"></div></div>
+      <div style="font-size:11px;color:#6b7280;text-align:right;margin-bottom:6px">${pct}% completado</div>
+      <div class="alumna-dias-grid">${diasDots}</div>
+      <div style="margin-top:12px">
+        <div style="font-size:13px;font-weight:700;color:#374151;margin-bottom:4px">📝 Observaciones del docente</div>
+        <textarea class="pdoc-obs-area" id="obs_${idx}" placeholder="Escribe observaciones sobre ${a.nombre}..."
+          onchange="guardarObsDocente(${idx},this.value)">${obsVal}</textarea>
+      </div>
+      <div class="alumna-acciones">
+        <button class="docente-btn-gris" onclick="editarAlumna(${idx})" style="font-size:12px;padding:7px 12px">✏️ Editar datos</button>
+        <button class="docente-btn-rojo" onclick="reiniciarAlumna(${idx})" style="font-size:12px;padding:7px 12px">🗑 Reiniciar progreso</button>
+        ${idx>=ALUMNAS_DB.length?`<button class="docente-btn-rojo" onclick="eliminarAlumna(${idx})" style="font-size:12px;padding:7px 12px">❌ Eliminar alumna</button>`:''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+async function guardarObsDocente(idx, obs){
+  const a=alumnasDatos[idx];
+  if(!a||!a.datos) return;
+  a.datos.obs=obs;
+  await guardarDatosAlumna(idx, a.datos);
+  mostrarBurbujaPdoc('💾 Observación guardada');
+}
+
+async function guardarDatosAlumna(idx, datos){
+  const a=alumnasDatos[idx];
+  try{
+    await fetch('https://api.jsonbin.io/v3/b/'+a.bin,{
+      method:'PUT',
+      headers:{'Content-Type':'application/json','X-Master-Key':JSONBIN_KEY},
+      body:JSON.stringify(datos)
+    });
+  } catch(e){console.warn('Error guardando',e);}
+}
+
+async function reiniciarAlumna(idx){
+  const a=alumnasDatos[idx];
+  const nom=a.datos?a.datos.nombre||a.nombre:a.nombre;
+  if(!confirm('¿Reiniciar TODO el progreso de '+nom+'? Esta acción no se puede deshacer.')) return;
+  if(!confirm('Segunda confirmación: ¿borrar todo el avance de '+nom+'?')) return;
+  const datosNuevos={nombre:nom,rut:a.rut,puntos:0,diasComp:[],secLogradas:{},obs:'',diaActual:0};
+  await guardarDatosAlumna(idx, datosNuevos);
+  alumnasDatos[idx].datos=datosNuevos;
+  renderPanelDocente();
+  mostrarBurbujaPdoc('🗑 Progreso de '+nom+' reiniciado');
+}
+
+function editarAlumna(idx){
+  const a=alumnasDatos[idx];
+  const nom=a.datos?a.datos.nombre||a.nombre:a.nombre;
+  const nuevoNom=prompt('Nuevo nombre para '+nom+':', nom);
+  if(!nuevoNom||!nuevoNom.trim()) return;
+  const nuevoRut=prompt('Nuevo RUT (sin puntos, con guión):', a.rut);
+  if(!nuevoRut||!nuevoRut.trim()) return;
+  // Actualizar en ALUMNAS_DB o en extra
+  const extraLista=JSON.parse(localStorage.getItem('alumnas_extra')||'[]');
+  if(idx<ALUMNAS_DB.length){
+    ALUMNAS_DB[idx].nombre=nuevoNom.trim();
+    ALUMNAS_DB[idx].rut=nuevoRut.trim();
+  } else {
+    const ei=idx-ALUMNAS_DB.length;
+    extraLista[ei].nombre=nuevoNom.trim();
+    extraLista[ei].rut=nuevoRut.trim();
+    localStorage.setItem('alumnas_extra',JSON.stringify(extraLista));
+  }
+  if(a.datos){
+    a.datos.nombre=nuevoNom.trim();
+    a.datos.rut=nuevoRut.trim();
+    guardarDatosAlumna(idx, a.datos);
+  }
+  alumnasDatos[idx].nombre=nuevoNom.trim();
+  alumnasDatos[idx].rut=nuevoRut.trim();
+  renderPanelDocente();
+  mostrarBurbujaPdoc('✏️ Datos actualizados');
+}
+
+async function agregarAlumna(){
+  const nom=document.getElementById('nueva-nombre').value.trim();
+  const rut=document.getElementById('nueva-rut').value.trim();
+  const bin=document.getElementById('nueva-bin').value.trim();
+  const err=document.getElementById('nueva-error');
+  if(!nom||!rut||!bin){err.textContent='Completa todos los campos.';return;}
+  if(bin.length<10){err.textContent='El BIN ID parece incorrecto (debe ser largo).';return;}
+  err.textContent='';
+  // Guardar en localStorage como alumnas extra
+  const extra=JSON.parse(localStorage.getItem('alumnas_extra')||'[]');
+  extra.push({nombre:nom,rut:rut,bin:bin});
+  localStorage.setItem('alumnas_extra',JSON.stringify(extra));
+  // Inicializar bin en JSONbin
+  const datosIni={nombre:nom,rut:rut,puntos:0,diasComp:[],secLogradas:{},obs:'',diaActual:0};
+  try{
+    await fetch('https://api.jsonbin.io/v3/b/'+bin,{
+      method:'PUT',
+      headers:{'Content-Type':'application/json','X-Master-Key':JSONBIN_KEY},
+      body:JSON.stringify(datosIni)
+    });
+    document.getElementById('nueva-nombre').value='';
+    document.getElementById('nueva-rut').value='';
+    document.getElementById('nueva-bin').value='';
+    mostrarBurbujaPdoc('✅ Alumna '+nom+' agregada');
+    abrirPanelDocenteCompleto();
+  } catch(e){
+    err.textContent='Error al conectar con JSONbin. Verifica el BIN ID.';
+  }
+}
+
+function eliminarAlumna(idx){
+  const a=alumnasDatos[idx];
+  if(!confirm('¿Eliminar a '+a.nombre+' del sistema? Solo se elimina del listado, no el bin de JSONbin.')) return;
+  const extra=JSON.parse(localStorage.getItem('alumnas_extra')||'[]');
+  const ei=idx-ALUMNAS_DB.length;
+  extra.splice(ei,1);
+  localStorage.setItem('alumnas_extra',JSON.stringify(extra));
+  abrirPanelDocenteCompleto();
+}
+
+function cerrarPanelDocenteCompleto(){
+  document.getElementById('pdoc-screen').style.display='none';
+  document.getElementById('login-screen').style.display='flex';
+  const inp=document.getElementById('login-rut-inp');
+  if(inp){inp.value='';inp.focus();}
+}
+
+function mostrarBurbujaPdoc(msg){
+  const b=document.createElement('div');
+  b.style.cssText='position:fixed;top:80px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#10b981,#059669);color:white;padding:12px 22px;border-radius:18px;font-size:15px;font-weight:800;z-index:10000;box-shadow:0 6px 20px rgba(16,185,129,.4)';
+  b.textContent=msg;
+  document.body.appendChild(b);
+  setTimeout(()=>b.remove(),2800);
+}
+
+function abrirLoginInvitado(){
+  document.getElementById('modal-invitado').style.display='flex';
+  setTimeout(()=>{
+    const inp=document.getElementById('inv-clave-inp');
+    if(inp){inp.value='';inp.focus();}
+  },100);
+}
+
+function verificarClaveInvitado(){
+  const inp=document.getElementById('inv-clave-inp');
+  const err=document.getElementById('inv-error');
+  if(inp.value.trim().toLowerCase() === CLAVE_INVITADO){
+    document.getElementById('modal-invitado').style.display='none';
+    document.getElementById('login-screen').style.display='none';
+    entrarModoInvitado();
+  } else {
+    inp.classList.add('error');
+    err.textContent='❌ Clave incorrecta.';
+    inp.value='';
+    setTimeout(()=>inp.classList.remove('error'),600);
+  }
+}
+
+function entrarModoInvitado(){
+  modoInvitado = true;
+  binIdActual = '';
+  nombreAlumna = 'Invitado';
+  puntos = 0;
+  diasComp = new Set();
+  diaActual = 0;
+  // Mostrar banner de invitado
+  const banner = document.getElementById('banner-invitado');
+  if(banner) banner.style.display='block';
+  // Ocultar botón salir y docente, mostrar solo cerrar invitado
+  actualizarHeaderNombre();
+  buildNav(); renderDia();
+  setTimeout(()=>{cargarVoces();actualizarUI_Voz();aplicarLogos();actualizarTabs();},400);
+  hablar('Bienvenido al modo invitado. Puedes explorar todos los días.', velocidad);
+  mostrarBurbuja('👁 Modo invitado activo');
+}
+
+function cerrarSesion(){
+  const msg = modoInvitado ? '¿Salir del modo invitado? El progreso no se guardó.' : '¿Salir y volver al login?';
+  if(!confirm(msg)) return;
+  const salir = ()=>{
+    modoInvitado=false; binIdActual=''; nombreAlumna=''; puntos=0; diasComp=new Set(); diaActual=0;
+    const banner=document.getElementById('banner-invitado');
+    if(banner) banner.style.display='none';
+    localStorage.removeItem('bin_sesion');
+    localStorage.removeItem('nombre_alumna');
+    localStorage.removeItem('pts');
+    localStorage.removeItem('dc');
+    localStorage.removeItem('dia_actual');
+    document.getElementById('login-screen').style.display='flex';
+    const inp=document.getElementById('login-rut-inp');
+    if(inp){inp.value=''; inp.focus();}
+    document.getElementById('login-saving').classList.remove('vis');
+    document.getElementById('login-error').textContent='';
+  };
+  if(modoInvitado){ salir(); } else { guardarNube().then(salir); }
+}
+
+function buildNav(){
+  const nav=document.getElementById('navDias');
+  nav.innerHTML='';
+  DIAS.forEach((d,i)=>{
+    const b=document.createElement('button');
+    b.className='dia-btn'+(i===diaActual?' activo':'')+(diasComp.has(i)?' completado':'');
+    b.textContent='Día '+(i+1);
+    b.onclick=()=>{diaActual=i;buildNav();renderDia();};
+    nav.appendChild(b);
+  });
+}
+
+function renderDia(){
+  palabraFormada=[];
+  const d=DIAS[diaActual];
+  const c=document.getElementById('contenidoDia');
+  c.innerHTML=`
+    <div class="semana-badge" style="background:${d.col}22;color:${d.col}">Semana ${d.semana} — Vocal ${d.vocal}</div>
+    <div class="titulo-dia">${d.titulo}</div>
+    <div class="subtitulo-dia">${d.subtitulo}</div>
+    <div class="puntaje"><div class="puntaje-wrap"><span class="puntaje-num" id="pts">⭐ ${puntos}</span><span class="puntaje-label">puntos totales</span></div></div>
+    <div class="tab-nav">
+      <button class="tab-btn activo" id="tab-btn-silabas" onclick="cambiarSec('silabas',this)"><div style="font-size:26px;margin-bottom:4px">🔤</div>Sílabas<span class="tab-check"></span></button>
+      <button class="tab-btn" id="tab-btn-lectura" onclick="cambiarSec('lectura',this)"><div style="font-size:26px;margin-bottom:4px">📖</div>Lectura<span class="tab-check"></span></button>
+      <button class="tab-btn" id="tab-btn-dictado" onclick="cambiarSec('dictado',this)"><div style="font-size:26px;margin-bottom:4px">✏️</div>Dictado<span class="tab-check"></span></button>
+      <button class="tab-btn" id="tab-btn-ejercicio" onclick="cambiarSec('ejercicio',this)"><div style="font-size:26px;margin-bottom:4px">🎯</div>Ejercicio<span class="tab-check"></span></button>
+      <button class="tab-btn" id="tab-btn-loteria" onclick="cambiarSec('loteria',this)"><div style="font-size:26px;margin-bottom:4px">🎲</div>Lotería<span class="tab-check"></span></button>
+      <button class="tab-btn" onclick="cambiarSec('reporte',this);renderReporte()"><div style="font-size:26px;margin-bottom:4px">📊</div>Reporte</button>
+    </div>
+    <div id="sec-silabas" class="seccion activa">${htmlSilabas(d)}</div>
+    <div id="sec-lectura" class="seccion">${htmlLectura(d)}</div>
+    <div id="sec-dictado" class="seccion">${htmlDictado(d)}</div>
+    <div id="sec-ejercicio" class="seccion">${htmlEjercicio(d,0)}</div>
+    <div id="sec-loteria" class="seccion">${htmlLoteria(d)}</div>
+    <div id="sec-reporte" class="seccion" id="sec-reporte"></div>
+
+    <div style="margin-top:28px;padding:14px 18px;background:white;border-radius:14px;border:1px solid #e5e7eb;display:flex;align-items:center;gap:14px;box-shadow:0 2px 6px rgba(0,0,0,.05);">
+      <img class="logo-ltp" style="width:48px;height:48px;flex-shrink:0;">
+      <div>
+        <div style="font-size:13px;font-weight:800;color:#1e1b4b;">Liceo Técnico Profesional de Río Bueno</div>
+        <div style="font-size:12px;color:#6b7280;">Programa de Integración Escolar (PIE)</div>
+        <div style="font-size:12px;color:#4f46e5;font-weight:700;">Docente: Álvaro Barra Sáez</div>
+      </div>
+    </div>`;
+}
+
+// Orden obligatorio de secciones
+const ORDEN_SECS = ['silabas','lectura','dictado','ejercicio','loteria'];
+
+function getSecLogradas(){
+  return JSON.parse(localStorage.getItem('sec_'+diaActual)||'[]');
+}
+
+function setSecLograda(sec){
+  const logradas = getSecLogradas();
+  if(!logradas.includes(sec)) logradas.push(sec);
+  localStorage.setItem('sec_'+diaActual, JSON.stringify(logradas));
+}
+
+function secDesbloqueada(sec){
+  if(sec === 'reporte') return true;
+  const idx = ORDEN_SECS.indexOf(sec);
+  if(idx === 0) return true; // sílabas siempre disponible
+  const logradas = getSecLogradas();
+  return logradas.includes(ORDEN_SECS[idx-1]);
+}
+
+function cambiarSec(id, btn){
+  if(!secDesbloqueada(id)){
+    const idx = ORDEN_SECS.indexOf(id);
+    const anterior = ORDEN_SECS[idx-1];
+    const nombres = {silabas:'Sílabas',lectura:'Lectura',dictado:'Dictado',ejercicio:'Ejercicio',loteria:'Lotería'};
+    mostrarBurbuja('🔒 Primero completa: '+nombres[anterior]);
+    hablar('Primero debes completar '+(nombres[anterior]||anterior), velocidad);
+    // Sacudir el tab bloqueado
+    if(btn){ btn.style.animation='sacudir .4s'; setTimeout(()=>btn.style.animation='',400); }
+    return;
+  }
+  setTimeout(aplicarLogos,50);
+  document.querySelectorAll('.seccion').forEach(s=>s.classList.remove('activa'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('activo'));
+  document.getElementById('sec-'+id).classList.add('activa');
+  btn.classList.add('activo');
+}
+
+function marcarSecLograda(sec){
+  setSecLograda(sec);
+  actualizarTabs();
+  // Pasar automáticamente a la siguiente sección
+  const idx = ORDEN_SECS.indexOf(sec);
+  const siguiente = ORDEN_SECS[idx+1];
+  if(siguiente){
+    const nombres = {silabas:'Sílabas',lectura:'Lectura',dictado:'Dictado',ejercicio:'Ejercicio',loteria:'Lotería'};
+    const nombreSig = nombres[siguiente] || siguiente;
+    const nom = nombreAlumna || '';
+    hablar('¡Muy bien'+(nom?', '+nom:'')+'! Ahora vamos a '+nombreSig, velocidad);
+    setTimeout(()=>{
+      const btn = document.getElementById('tab-btn-'+siguiente);
+      if(btn) btn.click();
+    }, 1800);
+  } else {
+    // Completó todas las secciones del día
+    completar();
+  }
+  actualizarTabs();
+}
+
+function actualizarTabs(){
+  const logradas = getSecLogradas();
+  ORDEN_SECS.forEach((sec, idx)=>{
+    const btn = document.getElementById('tab-btn-'+sec);
+    if(!btn) return;
+    const desbloqueada = secDesbloqueada(sec);
+    const lograda = logradas.includes(sec);
+    btn.disabled = !desbloqueada;
+    btn.style.opacity = desbloqueada ? '1' : '0.45';
+    btn.style.cursor = desbloqueada ? 'pointer' : 'not-allowed';
+    // Mostrar check si lograda
+    const checkEl = btn.querySelector('.tab-check');
+    if(checkEl) checkEl.textContent = lograda ? ' ✅' : (desbloqueada ? '' : ' 🔒');
+  });
+}
+
+function panelVoz(){
+  return `<div class="voz-panel">
+    <h3>🎙 Voz</h3>
+    <div class="voz-grid">
+      <button class="voz-btn sel" id="vbtn_paulina" onclick="seleccionarVoz('paulina')">👩 Paulina</button>
+      <button class="voz-btn" id="vbtn_nino" onclick="seleccionarVoz('nino')">👦 Niño</button>
+    </div>
+    <div class="voz-nombre-wrap">Voz activa: <span id="voz-nombre">cargando...</span></div>
+  </div>`;
+}
+
+function htmlSilabas(d){
+  let html=`<div class="card">
+    <div class="card-title">🔊 Toca cada sílaba para escucharla</div>
+    ${panelVoz()}
+    <div class="speed-ctrl">
+      <span class="speed-label">Velocidad:</span>
+      <button class="speed-btn sel" onclick="setVel(0.35,this)">🐢 Muy lenta</button>
+      <button class="speed-btn" onclick="setVel(0.45,this)">🐌 Lenta</button>
+      <button class="speed-btn" onclick="setVel(0.85,this)">🐇 Normal</button>
+    </div>
+    <div class="silaba-grid">`;
+  d.silabas.forEach((s,i)=>{
+    html+=`<div class="sil" id="sil_${i}" onclick="playSil('${s.s}',${i})">
+      <span class="emoji">${s.e}</span>
+      <span class="txt">${s.s}</span>
+      <span class="pal">${s.p}</span>
+    </div>`;
+  });
+  const silLograda = getSecLogradas().includes('silabas');
+  html += `</div>
+    <div class="sec-logrado-wrap">
+      <p class="sec-instruccion">Toca cada sílaba, escúchala y repítela en voz alta.</p>
+      <button class="btn-sec-logrado${silLograda?' hecho':''}" onclick="confirmarLogrado('silabas','¡Muy bien! Practicaste todas las sílabas.')">
+        ${silLograda ? '✅ ¡Sílabas logradas!' : '🏅 ¡Logré las sílabas!'}
+      </button>
+    </div>
+  </div>`;
+  return html;
+}
+
+function playSil(sil,idx){
+  document.querySelectorAll('.sil').forEach(el=>el.classList.remove('playing'));
+  const el=document.getElementById('sil_'+idx);
+  if(el)el.classList.add('playing');
+  hablar(sil,velocidad);
+  setTimeout(()=>{if(el)el.classList.remove('playing');},2200);
+}
+
+function setVel(v,btn){
+  velocidad=v;
+  document.querySelectorAll('.speed-btn').forEach(b=>b.classList.remove('sel'));
+  btn.classList.add('sel');
+}
+
+function htmlLectura(d){
+  const lineas=d.textoLectura.txt.split('\n');
+  const pHtml=lineas.map(l=>l.split(' ').map(p=>{
+    const limpia=p.replace(/[^a-záéíóúüñA-ZÁÉÍÓÚÜÑ]/g,'');
+    return`<span class="palabra-lectura" onclick="hablar('${limpia}',velocidad)">${p}</span>`;
+  }).join(' ')).join('<br>');
+  const lecLograda = localStorage.getItem('lec_'+diaActual) === '1';
+  return`<div class="card">
+    <div class="imagen-lectura">${d.textoLectura.img}</div>
+    <div class="card-title">📖 Toca cada palabra para escucharla</div>
+    ${panelVoz()}
+    <div class="texto-lectura">${pHtml}</div>
+    <br>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;align-items:center;">
+      <button class="btn-verificar" onclick="hablar('${d.textoLectura.txt.replace(/'/g,"\\'")}',velocidad)">🔊 Escuchar todo</button>
+      <button id="btn-logrado-lec" class="btn-sec-logrado${lecLograda?' hecho':''}" onclick="confirmarLogrado('lectura','¡Muy bien! Completaste la lectura.')">
+        ${lecLograda ? '✅ ¡Lectura lograda!' : '🏅 ¡Logré la lectura!'}
+      </button>
+    </div>
+    ${lecLograda ? '<div class="logrado-msg">🎉 ¡Muy bien! Ya leíste este texto.</div>' : ''}
+  </div>`;
+}
+
+function confirmarLogrado(sec, msgVoz){
+  const nom = nombreAlumna || '';
+  // Actualizar estado
+  setSecLograda(sec);
+  puntos += 5; guardar();
+  const pts = document.getElementById('pts');
+  if(pts) pts.textContent = '⭐ '+puntos;
+  // Actualizar botón
+  const btns = document.querySelectorAll('.btn-sec-logrado');
+  btns.forEach(b=>{
+    if(b.textContent.includes('Logré') || b.textContent.includes('lograda') || b.textContent.includes('logrado')){
+      b.classList.add('hecho');
+      b.textContent = '✅ ¡Logrado! +5⭐';
+    }
+  });
+  // Felicitar y pasar a siguiente
+  felicitar('🏅 +5⭐ ' + msgVoz, msgVoz.replace('¡', '¡'+(nom?nom+', ':'')) );
+  setTimeout(()=> marcarSecLograda(sec), 1600);
+}
+
+function marcarLeccionLograda(){
+  confirmarLogrado('lectura','¡Muy bien! Lectura lograda.');
+}
+
+function marcarLeccionLograda(){
+  confirmarLogrado('lectura','Muy bien, lectura lograda');
+}
+
+function normalizarTexto(t){
+  return t.toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+    .replace(/[^a-z\s]/g,'').trim();
+}
+
+function verificarPalabra(idx, correcta){
+  const inp = document.getElementById('dinp_'+idx);
+  const res = document.getElementById('dres_'+idx);
+  const item = document.getElementById('ditem_'+idx);
+  const dot = document.getElementById('dprog_'+idx);
+  const corrEl = document.getElementById('dcorr_'+idx);
+  if(!inp) return;
+  const escrito = normalizarTexto(inp.value);
+  const correcto = normalizarTexto(correcta);
+  if(escrito === correcto){
+    inp.className='dict-input ok';
+    item.className='dict-item correcta';
+    res.className='dict-resultado ok';
+    res.textContent='✅ ¡Muy bien! Está correcto.';
+    if(dot){dot.className='dict-prog-dot ok';dot.textContent='✓';}
+    puntos+=2;
+    const ac=parseInt(localStorage.getItem('aciertos')||'0');
+    const it=parseInt(localStorage.getItem('intentos')||'0');
+    localStorage.setItem('aciertos',ac+1);
+    localStorage.setItem('intentos',it+1);
+    guardar();
+    const pts=document.getElementById('pts');
+    if(pts) pts.textContent='⭐ '+puntos;
+  } else {
+    inp.className='dict-input error';
+    item.className='dict-item incorrecta';
+    res.className='dict-resultado error';
+    res.textContent='❌ Intenta de nuevo. Escucha otra vez.';
+    if(dot){dot.className='dict-prog-dot error';dot.textContent='✗';}
+    if(corrEl){corrEl.style.display='block';corrEl.textContent='La palabra correcta es: '+correcta;}
+    hablar(correcta, velocidad);
+  }
+  // Verificar si todos completados
+  verificarResumenDictado();
+}
+
+function verificarFrase(idx, correcta){
+  const inp = document.getElementById('finp_'+idx);
+  const res = document.getElementById('fres_'+idx);
+  const item = document.getElementById('fitem_'+idx);
+  if(!inp) return;
+  const escrito = normalizarTexto(inp.value);
+  const correcto = normalizarTexto(correcta);
+  if(escrito === correcto){
+    inp.className='frase-input ok';
+    item.className='frase-item correcta';
+    res.className='dict-resultado ok';
+    res.textContent='✅ ¡Perfecto! Frase correcta.';
+    puntos+=3; guardar();
+    const pts=document.getElementById('pts');
+    if(pts) pts.textContent='⭐ '+puntos;
+  } else {
+    inp.className='frase-input error';
+    item.className='frase-item incorrecta';
+    res.className='dict-resultado error';
+    res.textContent='❌ Revisa la escritura. Escucha de nuevo.';
+    hablar(correcta, velocidad);
+  }
+  verificarResumenDictado();
+}
+
+function escucharPalabra(idx, palabra){
+  hablar(palabra, velocidad);
+  const item = document.getElementById('ditem_'+idx);
+  const dot = document.getElementById('dprog_'+idx);
+  const btn = document.getElementById('dbtn_'+idx);
+  if(item) item.classList.add('escuchada');
+  if(dot && !dot.classList.contains('ok') && !dot.classList.contains('error')){
+    dot.className='dict-prog-dot activo';
+  }
+  if(btn) btn.disabled=false;
+  // Focus al input
+  setTimeout(()=>{
+    const inp=document.getElementById('dinp_'+idx);
+    if(inp) inp.focus();
+  }, 800);
+}
+
+function verificarResumenDictado(){
+  const d = DIAS[diaActual];
+  const total = d.palabrasDictado.slice(0,8).length + d.frases.length;
+  let correctas = 0;
+  document.querySelectorAll('.dict-item.correcta, .frase-item.correcta').forEach(()=>correctas++);
+  if(correctas === total){
+    const res = document.getElementById('dict-resumen');
+    if(res){
+      res.style.display='block';
+      res.querySelector('h3').textContent='🎉 ¡Dictado completado! +'+((total*2)+5)+' estrellas';
+    }
+  }
+}
+
+function htmlDictado(d){
+  const palabras = d.palabrasDictado.slice(0,8);
+  // Dots de progreso
+  let dots = palabras.map((p,i)=>`<div class="dict-prog-dot" id="dprog_${i}">${i+1}</div>`).join('');
+  // Items de palabras
+  let pw = palabras.map((p,i)=>`
+    <div class="dict-item" id="ditem_${i}">
+      <div class="dict-num">Palabra ${i+1}</div>
+      <button class="dict-btn-escuchar" id="dbtn_${i}" onclick="escucharPalabra(${i},'${p}')">
+        🔊 Escuchar palabra ${i+1}
+      </button>
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+        <input class="dict-input" id="dinp_${i}" type="text" 
+          placeholder="Escribe aquí lo que escuchaste..."
+          onkeydown="if(event.key==='Enter')verificarPalabra(${i},'${p}')"
+          autocomplete="off" autocorrect="off" spellcheck="false"/>
+      </div>
+      <div class="dict-acciones">
+        <button class="dict-btn-check" onclick="verificarPalabra(${i},'${p}')">✅ Verificar</button>
+        <button class="dict-btn-repetir" onclick="hablar('${p}',velocidad)">🔁 Repetir</button>
+        <button class="dict-btn-repetir" onclick="hablar('${p}',velocidad*0.7)">🐢 Más lento</button>
+      </div>
+      <div class="dict-resultado" id="dres_${i}"></div>
+      <div class="dict-respuesta-correcta" id="dcorr_${i}"></div>
+    </div>`).join('');
+  // Items de frases
+  let fw = d.frases.map((f,i)=>`
+    <div class="frase-item" id="fitem_${i}">
+      <div class="dict-num">Frase ${i+1}</div>
+      <button class="dict-btn-escuchar" onclick="hablar('${f}',velocidad);setTimeout(()=>{document.getElementById('finp_${i}').focus()},1000)">
+        🔊 Escuchar frase ${i+1}
+      </button>
+      <input class="frase-input" id="finp_${i}" type="text"
+        placeholder="Escribe la frase completa..."
+        onkeydown="if(event.key==='Enter')verificarFrase(${i},'${f}')"
+        autocomplete="off" autocorrect="off" spellcheck="false"/>
+      <div class="dict-acciones">
+        <button class="dict-btn-check" onclick="verificarFrase(${i},'${f}')">✅ Verificar</button>
+        <button class="dict-btn-repetir" onclick="hablar('${f}',velocidad)">🔁 Repetir</button>
+        <button class="dict-btn-repetir" onclick="hablar('${f}',velocidad*0.7)">🐢 Más lento</button>
+      </div>
+      <div class="dict-resultado" id="fres_${i}"></div>
+    </div>`).join('');
+
+  return`<div class="card">
+    <div class="card-title">✏️ Dictado — escucha y escribe aquí</div>
+    ${panelVoz()}
+    <p style="font-size:13px;color:#6b7280;margin-bottom:14px">
+      🔊 Aprieta el botón para escuchar, luego escribe y aprieta <strong>Verificar</strong>.
+    </p>
+    <div class="dict-progreso">${dots}</div>
+    ${pw}
+    <div class="card-title" style="margin-top:20px">🗣 Dictado de frases</div>
+    <p style="font-size:12px;color:#9ca3af;margin-bottom:12px">Escucha la frase completa y escríbela tal como la escuchaste.</p>
+    ${fw}
+    <div class="dict-resumen" id="dict-resumen">
+      <h3></h3>
+      <p>¡Completaste todo el dictado del día!</p>
+      <button class="btn-siguiente" style="margin-top:10px" onclick="completar()">✅ Marcar día como completado</button>
+    </div>
+    <div class="sec-logrado-wrap" style="margin-top:16px">
+      <button class="btn-sec-logrado" id="btn-logrado-dictado" onclick="confirmarLogrado('dictado','¡Excelente! Completaste el dictado.')">🏅 ¡Logré el dictado!</button>
+    </div>
+  </div>`;
+}
+
+function completar(){
+  diasComp.add(diaActual);puntos+=10;guardar();buildNav();
+  const el=document.getElementById('pts');
+  if(el)el.textContent='⭐ '+puntos;
+  const msgDia = '¡Muy bien'+(nombreAlumna?', '+nombreAlumna:'')+'! Completaste el Día '+(diaActual+1)+'. Ganaste 10 estrellas ⭐';
+  felicitar(msgDia, '¡Muy bien '+(nombreAlumna||'')+', completaste el día '+(diaActual+1)+'! ¡Eres increíble!');
+}
+
+function htmlEjercicio(d,idx){
+  const ej=d.ejercicios[idx];
+  if(!ej)return`<div class="card"><div class="completado-overlay">
+    <div class="trofeo">🏆</div>
+    <h2>¡Ejercicios completados!</h2>
+    <p>Ganaste puntos extra. ¡Eres increíble!</p>
+    <div class="sec-logrado-wrap" style="margin-top:16px">
+      <button class="btn-sec-logrado" onclick="confirmarLogrado('ejercicio','¡Fantástico! Completaste todos los ejercicios.')">🏅 ¡Logré los ejercicios!</button>
+    </div>
+    <button class="speed-btn" style="margin-top:8px" onclick="renderDia()">🔄 Reiniciar</button>
+  </div></div>`;
+  palabraFormada=[];
+  const mezcla=[...new Set(ej.opciones)].sort(()=>Math.random()-.5);
+  const prog=Math.round((idx/d.ejercicios.length)*100);
+  let bsil=mezcla.map(op=>`<button class="speed-btn" onclick="agregarSil('${op}','${ej.palabra}','${ej.silabas.join('-')}')" style="font-size:18px;font-weight:800;padding:10px 18px;">${op}</button>`).join('');
+  return`<div class="card">
+    <div class="card-title">🎯 Ejercicio ${idx+1} de ${d.ejercicios.length}</div>
+    ${panelVoz()}
+    <div class="progreso-bar-wrap"><div class="progreso-bar" style="width:${prog}%"></div></div>
+    <p style="font-size:16px;font-weight:700;margin-bottom:10px">Forma la palabra: <span style="color:#4f46e5;font-size:22px">${ej.palabra.toUpperCase()}</span></p>
+    <p style="font-size:13px;color:#6b7280;margin-bottom:12px">Toca las sílabas en el orden correcto.</p>
+    <div id="zona_pal" style="min-height:44px;border:2px dashed #c7d2fe;border-radius:12px;padding:8px 12px;margin-bottom:14px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+      <span style="color:#9ca3af;font-size:14px">Aquí aparecen las sílabas...</span>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;">${bsil}</div>
+    <button class="btn-verificar" onclick="verificar('${ej.palabra}','${ej.silabas.join('-')}',${idx})">✅ Verificar</button>
+    <button class="speed-btn" onclick="hablar('${ej.palabra}',velocidad)" style="margin-left:8px">🔊 Escuchar</button>
+    <button class="speed-btn" onclick="palabraFormada=[];document.getElementById('zona_pal').innerHTML='<span style=color:#9ca3af;font-size:14px>Aquí aparecen las sílabas...</span>'" style="margin-left:8px">🗑 Borrar</button>
+    <div id="fb_ej" class="feedback"></div>
+  </div>`;
+}
+
+function agregarSil(sil){
+  palabraFormada.push(sil);
+  const zona=document.getElementById('zona_pal');
+  zona.innerHTML=palabraFormada.map(s=>`<span style="background:#4f46e5;color:white;padding:6px 14px;border-radius:8px;font-size:20px;font-weight:900">${s}</span>`).join('');
+}
+
+function verificar(palabra,silStr,idx){
+  const fb=document.getElementById('fb_ej');
+  const correctas=silStr.split('-');
+  const ok=palabraFormada.join('').toLowerCase()===palabra.toLowerCase()||palabraFormada.join('')===correctas.join('');
+  if(ok){
+    fb.className='feedback ok';fb.textContent='¡Muy bien! ⭐ La palabra es: '+palabra;
+    puntos+=5;guardar();const p=document.getElementById('pts');if(p)p.textContent='⭐ '+puntos;
+    palabraFormada=[];
+    setTimeout(()=>{const sec=document.getElementById('sec-ejercicio');if(sec)sec.innerHTML=htmlEjercicio(DIAS[diaActual],idx+1);},1600);
+  }else{
+    fb.className='feedback error';fb.textContent='¡Casi! Intenta de nuevo. Escucha la palabra y vuelve a intentarlo.';
+    palabraFormada=[];
+    const zona=document.getElementById('zona_pal');
+    if(zona)zona.innerHTML='<span style="color:#9ca3af;font-size:14px">Aquí aparecen las sílabas...</span>';
+  }
+}
+
+// ── Estado del juego de lotería ────────────────────────────
+let lotSilabaActual = '';
+let lotPuntosRonda = 0;
+let lotRespuestaVisible = false;
+
+function htmlLoteria(d){
+  return`<div class="card">
+    <div class="card-title">🎲 Juego de Sílabas</div>
+    ${panelVoz()}
+    <p style="font-size:13px;color:#6b7280;margin-bottom:14px">
+      Sale una sílaba al azar. ¡Elige otra sílaba para formar una palabra!
+    </p>
+
+    <div class="lot-sorteada" id="lot-sorteada">
+      <div class="lot-etiqueta">Sílaba sorteada:</div>
+      <div class="lot-sil-grande" id="lot-sil-txt">— — —</div>
+      <button class="lot-escuchar-btn" id="lot-escuchar-btn" onclick="lotEscuchar()" style="display:none">🔊 Escuchar</button>
+    </div>
+
+    <div id="lot-opciones" style="margin:14px 0;display:none"></div>
+    <div id="lot-resultado" class="lot-resultado" style="display:none"></div>
+    <div id="lot-respuesta" class="lot-respuesta-txt" style="display:none"></div>
+
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;">
+      <button class="btn-sortear" onclick="lotSortear()">🎲 Nueva sílaba</button>
+      <button class="speed-btn" onclick="lotReset()">🔄 Reiniciar</button>
+    </div>
+    <div class="lot-puntaje" id="lot-puntaje">Aciertos: <strong>0</strong></div>
+    <div class="sec-logrado-wrap" style="margin-top:14px">
+      <button class="btn-sec-logrado" onclick="confirmarLogrado('loteria','¡Genial! Terminaste el juego de sílabas.')">🏅 ¡Logré la lotería!</button>
+    </div>
+  </div>`;
+}
+
+function lotSortear(){
+  const d = DIAS[diaActual];
+  const silabas = d.silabas;
+  const elegida = silabas[Math.floor(Math.random()*silabas.length)];
+  lotSilabaActual = elegida.s;
+  lotRespuestaVisible = false;
+
+  // Mostrar sílaba sorteada
+  const silTxt = document.getElementById('lot-sil-txt');
+  const escBtn = document.getElementById('lot-escuchar-btn');
+  const opcDiv = document.getElementById('lot-opciones');
+  const resDiv = document.getElementById('lot-resultado');
+  const respDiv = document.getElementById('lot-respuesta');
+
+  if(silTxt){ silTxt.textContent = elegida.s; silTxt.style.color='#4f46e5'; }
+  if(escBtn){ escBtn.style.display='inline-flex'; }
+  if(resDiv){ resDiv.style.display='none'; resDiv.textContent=''; }
+  if(respDiv){ respDiv.style.display='none'; }
+
+  hablar(elegida.s, velocidad);
+
+  // Obtener palabras posibles del banco
+  const palabras = BANCO_PALABRAS[elegida.s] || [];
+
+  if(!palabras.length){
+    if(opcDiv){ opcDiv.style.display='block'; opcDiv.innerHTML='<p style="color:#9ca3af;font-size:13px">No hay palabras para esta sílaba aún.</p>'; }
+    return;
+  }
+
+  // Elegir UNA palabra al azar como la correcta
+  const correcta = palabras[Math.floor(Math.random()*palabras.length)];
+
+  // Obtener todas las sílabas RESTANTES de la palabra correcta (sin la primera)
+  // y mezclar con distractores del mismo día
+  const silsCorrectas = correcta.silabas.slice(1); // las que faltan agregar
+
+  // Para el juego: mostrar la sílaba sorteada + pedir que elijan de opciones
+  // Opciones: las sílabas restantes de la palabra correcta + 3 distractores
+  const todasSils = d.silabas.map(s=>s.s);
+  const distractores = todasSils
+    .filter(s => s !== elegida.s && !correcta.silabas.includes(s))
+    .sort(()=>Math.random()-.5).slice(0,3);
+
+  // La "opción correcta" es la segunda sílaba de la palabra
+  const silabaFaltante = correcta.silabas[1] || correcta.silabas[0];
+  const opciones = [silabaFaltante, ...distractores].sort(()=>Math.random()-.5);
+
+  if(opcDiv){
+    opcDiv.style.display='block';
+    opcDiv.innerHTML = `
+      <p style="font-size:14px;font-weight:800;color:#1e1b4b;margin-bottom:10px">
+        ${elegida.s} + ¿qué sílaba? → forma una palabra ${correcta.pista}
+      </p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        ${opciones.map(op=>`
+          <button class="lot-opcion-btn" onclick="lotVerificar('${op}','${silabaFaltante}','${correcta.palabra}','${elegida.s}')">
+            ${op}
+          </button>`).join('')}
+      </div>`;
+  }
+}
+
+function lotVerificar(elegida, correcta, palabra, silBase){
+  const resDiv = document.getElementById('lot-resultado');
+  const respDiv = document.getElementById('lot-respuesta');
+  const puntEl = document.getElementById('lot-puntaje');
+  document.querySelectorAll('.lot-opcion-btn').forEach(b=>b.disabled=true);
+
+  if(elegida === correcta){
+    lotPuntosRonda++;
+    puntos += 3; guardar();
+    const pts = document.getElementById('pts');
+    if(pts) pts.textContent = '⭐ '+puntos;
+    if(resDiv){
+      resDiv.style.display='block';
+      resDiv.className='lot-resultado ok';
+      resDiv.textContent='✅ ¡Correcto! La palabra es: '+palabra+' +3⭐';
+    }
+    felicitar('✅ ¡Correcto! La palabra es: '+palabra, '¡Muy bien '+(nombreAlumna||'')+', la palabra es '+palabra);
+  } else {
+    if(resDiv){
+      resDiv.style.display='block';
+      resDiv.className='lot-resultado error';
+      resDiv.textContent='❌ Casi... La sílaba correcta era: '+correcta;
+    }
+    hablar('Inténtalo de nuevo '+(nombreAlumna||'')+', la palabra es '+palabra, velocidad);
+  }
+
+  if(respDiv){
+    respDiv.style.display='block';
+    respDiv.innerHTML='<span style="font-size:22px">'+silBase+'</span><span style="color:#9ca3af;margin:0 6px">+</span><span style="font-size:22px;color:#10b981">'+correcta+'</span><span style="color:#9ca3af;margin:0 8px">=</span><span style="font-size:22px;font-weight:900;color:#4f46e5">'+palabra+'</span>';
+  }
+  if(puntEl) puntEl.innerHTML='Aciertos: <strong>'+lotPuntosRonda+'</strong>';
+}
+
+function lotEscuchar(){
+  if(lotSilabaActual) hablar(lotSilabaActual, velocidad);
+}
+
+function lotReset(){
+  lotPuntosRonda = 0;
+  lotSilabaActual = '';
+  const puntEl = document.getElementById('lot-puntaje');
+  if(puntEl) puntEl.innerHTML='Aciertos: <strong>0</strong>';
+  const silTxt = document.getElementById('lot-sil-txt');
+  if(silTxt) silTxt.textContent='— — —';
+  const opcDiv = document.getElementById('lot-opciones');
+  if(opcDiv){ opcDiv.style.display='none'; opcDiv.innerHTML=''; }
+  const resDiv = document.getElementById('lot-resultado');
+  if(resDiv){ resDiv.style.display='none'; }
+  const respDiv = document.getElementById('lot-respuesta');
+  if(respDiv){ respDiv.style.display='none'; }
+  const escBtn = document.getElementById('lot-escuchar-btn');
+  if(escBtn) escBtn.style.display='none';
+}
+
+// La app espera el login. Si ya hay sesión en localStorage la restaura.
+const sesionGuardada = localStorage.getItem('bin_sesion');
+if(sesionGuardada){
+  binIdActual = sesionGuardada;
+  nombreAlumna = localStorage.getItem('nombre_alumna')||'';
+  puntos = parseInt(localStorage.getItem('pts')||'0');
+  diasComp = new Set(JSON.parse(localStorage.getItem('dc')||'[]'));
+  diaActual = parseInt(localStorage.getItem('dia_actual')||'0');
+  document.getElementById('login-screen').style.display='none';
+  actualizarHeaderNombre();
+  buildNav(); renderDia();
+  setTimeout(()=>{cargarVoces();actualizarUI_Voz();aplicarLogos();actualizarTabs();},400);
+} else {
+  // Mostrar pantalla de login
+  setTimeout(aplicarLogos, 300);
+}
+setTimeout(aplicarLogos,100);
+</script>
+
+<!-- Panel docente completo -->
+<div class="pdoc-screen" id="pdoc-screen" style="display:none">
+  <div class="pdoc-header">
+    <img class="logo-ltp" style="width:52px;height:52px;flex-shrink:0;">
+    <div style="flex:1">
+      <h1>🎓 Panel Docente</h1>
+      <p>Liceo Técnico Profesional de Río Bueno · Álvaro Barra Sáez</p>
+    </div>
+    <button class="pdoc-salir-btn" onclick="cerrarPanelDocenteCompleto()">← Volver al login</button>
+  </div>
+  <div class="pdoc-main">
+    <div class="pdoc-stats" id="pdoc-stats-globales">
+      <div class="pdoc-stat azul"><span class="num" id="pdoc-total-alumnas">—</span><span class="lbl">Alumnas activas</span></div>
+      <div class="pdoc-stat verde"><span class="num" id="pdoc-dias-prom">—</span><span class="lbl">Días promedio</span></div>
+      <div class="pdoc-stat ambar"><span class="num" id="pdoc-pts-prom">—</span><span class="lbl">Puntos promedio</span></div>
+    </div>
+    <div id="pdoc-alumnas-lista"></div>
+    <div class="pdoc-seccion" style="border-color:#c7d2fe;">
+      <h3>➕ Agregar alumna</h3>
+      <p style="font-size:12px;color:#6b7280;margin-bottom:12px">Ingresa el nombre, RUT y el BIN ID de JSONbin (debes crear el bin primero).</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:8px;align-items:end;">
+        <div><label class="pdoc-inp-label">Nombre</label><input class="pdoc-inp" id="nueva-nombre" type="text" placeholder="Valentina"></div>
+        <div><label class="pdoc-inp-label">RUT</label><input class="pdoc-inp" id="nueva-rut" type="text" placeholder="12345678-9"></div>
+        <div><label class="pdoc-inp-label">BIN ID de JSONbin</label><input class="pdoc-inp" id="nueva-bin" type="text" placeholder="69c1f..."></div>
+        <button class="docente-btn-verde" onclick="agregarAlumna()" style="height:42px">Agregar</button>
+      </div>
+      <div style="font-size:12px;color:#ef4444;margin-top:6px;" id="nueva-error"></div>
+    </div>
+  </div>
+</div>
+
+<img id="_logo_src" src="data:image/png;base64,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" style="display:none" alt="">
+<script>
+function aplicarLogos(){
+  const src = document.getElementById('_logo_src').src;
+  document.querySelectorAll('.logo-ltp').forEach(el=>el.src=src);
+}
+document.addEventListener('DOMContentLoaded', aplicarLogos);
+</script>
+</body>
+</html>
